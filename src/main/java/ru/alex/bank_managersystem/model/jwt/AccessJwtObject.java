@@ -1,4 +1,4 @@
-package ru.alex.bank_managersystem.security.jwt;
+package ru.alex.bank_managersystem.model.jwt;
 
 import lombok.Builder;
 import lombok.Data;

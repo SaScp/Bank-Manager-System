@@ -9,8 +9,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.session.DisableEncodeUrlFilter;
 import ru.alex.bank_managersystem.security.filter.DeniedRequestFilter;
+import ru.alex.bank_managersystem.security.filter.JwtFilter;
 
 import java.time.ZonedDateTime;
 import java.util.TimeZone;
@@ -21,6 +23,7 @@ import java.util.TimeZone;
 public class SecurityConfiguration {
 
     private final DeniedRequestFilter deniedRequestFilter;
+    private final JwtFilter jwtFilter;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -47,6 +50,8 @@ public class SecurityConfiguration {
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         http.addFilterBefore(deniedRequestFilter, DisableEncodeUrlFilter.class);
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 
