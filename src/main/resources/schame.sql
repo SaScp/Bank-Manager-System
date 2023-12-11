@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS t_user(
 );
 CREATE TABLE IF NOT EXISTS t_account(
     uuid varchar(255) primary key;
+
 );
 CREATE TABLE IF NOT EXISTS t_card(
     uuid varchar(255) primary key;
