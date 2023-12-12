@@ -15,8 +15,6 @@ public class Account {
     @Column(name = "account_id")
     private String accountId;
 
-    @Column(name = "user_id")
-    private String userId;
 
     @Column(name = "balance")
     private Double balance;
@@ -29,4 +27,11 @@ public class Account {
 
     @OneToMany(mappedBy = "account")
     private List<Card> cards;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    private User user;
+
+    @OneToMany(mappedBy = "account_id")
+    private List<History> histories;
 }

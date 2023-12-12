@@ -24,7 +24,6 @@ public class CardValidator implements Validator {
         }
     }
 
-
     private boolean isLuna(final String card) {
         List<Integer> reversCardArray = Arrays.stream(new StringBuilder()
                         .append(card)

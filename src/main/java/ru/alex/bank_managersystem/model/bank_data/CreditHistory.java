@@ -11,6 +11,7 @@ import java.time.ZonedDateTime;
 public class CreditHistory {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "credit_id")
     private String creditId;
 

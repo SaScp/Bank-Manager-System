@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import ru.alex.bank_managersystem.model.bank_data.Account;
 
 @Repository
-public interface AccountRepository extends JpaRepository<String, Account> {
+public interface AccountRepository extends JpaRepository<Account, String> {
 }
