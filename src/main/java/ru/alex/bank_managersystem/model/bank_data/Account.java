@@ -44,6 +44,6 @@ public class Account {
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "account_id")
+    @OneToMany(mappedBy = "account")
     private List<History> histories;
 }

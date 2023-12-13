@@ -30,7 +30,7 @@ public class SecurityConfiguration {
         http.httpBasic(AbstractHttpConfigurer::disable);
         http.csrf(AbstractHttpConfigurer::disable);
         http.cors(AbstractHttpConfigurer::disable);
-        http.anonymous(AbstractHttpConfigurer::disable);
+
 
         http.exceptionHandling(httpSecurityExceptionHandlingConfigurer ->
                 httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint((request, response, authException) -> {
@@ -41,7 +41,7 @@ public class SecurityConfiguration {
 
         http.authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
                 authorizationManagerRequestMatcherRegistry
-                        .requestMatchers("/error")
+                        .requestMatchers("/error", "/get")
                         .permitAll()
                         .anyRequest()
                         .authenticated()

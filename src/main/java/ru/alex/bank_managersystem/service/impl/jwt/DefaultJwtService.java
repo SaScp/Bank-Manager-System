@@ -1,10 +1,12 @@
 package ru.alex.bank_managersystem.service.impl.jwt;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
 import ru.alex.bank_managersystem.model.jwt.AccessJwtObject;
 import ru.alex.bank_managersystem.model.jwt.RefreshJwtObject;
 import ru.alex.bank_managersystem.service.JwtService;
 
+@Service
 public class DefaultJwtService implements JwtService {
     @Override
     public String createJwtAccessToken(AccessJwtObject accessJwtObject) {

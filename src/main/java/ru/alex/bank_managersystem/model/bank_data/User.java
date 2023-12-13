@@ -49,10 +49,10 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Role> roles;
 
-    @OneToMany(mappedBy = "user_id")
+    @OneToMany(mappedBy = "user")
     private List<Account> accounts;
 
-    @OneToMany(mappedBy = "user_id")
+    @OneToMany(mappedBy = "user")
     private List<CreditHistory> creditHistories;
 
     public User() {

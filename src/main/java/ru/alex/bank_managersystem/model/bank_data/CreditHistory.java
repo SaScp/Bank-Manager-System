@@ -11,13 +11,12 @@ import java.time.ZonedDateTime;
 public class CreditHistory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "credit_id")
     private String creditId;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    private User user_id;
+    private User user;
 
     @Column(name = "credit_amount")
     private Double creditAmount;
