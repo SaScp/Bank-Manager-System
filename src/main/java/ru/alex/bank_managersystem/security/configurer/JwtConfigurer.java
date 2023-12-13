@@ -24,7 +24,7 @@ public class JwtConfigurer extends AbstractHttpConfigurer<JwtConfigurer, HttpSec
     private AuthenticationEntryPoint authenticationEntryPoint =
             (request, response, authException) -> {
                 response.addHeader(HttpHeaders.WWW_AUTHENTICATE, "Bearer");
-                response.sendError(HttpStatus.UNAUTHORIZED.value());
+                response.sendError(HttpStatus.UNAUTHORIZED.value(), "AUTHORIZED");
             };
 
     @Override

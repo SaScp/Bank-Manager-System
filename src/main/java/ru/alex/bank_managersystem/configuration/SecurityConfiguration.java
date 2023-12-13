@@ -25,7 +25,7 @@ public class SecurityConfiguration {
         http.httpBasic(AbstractHttpConfigurer::disable);
         http.csrf(AbstractHttpConfigurer::disable);
         http.cors(AbstractHttpConfigurer::disable);
-
+        http.anonymous(AbstractHttpConfigurer::disable);
 
         http.authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
                 authorizationManagerRequestMatcherRegistry

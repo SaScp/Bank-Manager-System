@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -57,7 +58,8 @@ public class JwtFilter extends OncePerRequestFilter {
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             final var token = bearerToken.substring(7);
 
-            if (!token.isEmpty() && jwtService.validRefreshToken(token)) {
+            if (!token.isEmpty()) {
+                if (jwtService.validatorAccessToken(token)) {
                     try {
                         final var authentication = jwtService.getAuthentication(token);
                         try {
@@ -78,6 +80,11 @@ public class JwtFilter extends OncePerRequestFilter {
                         this.authenticationEntryPoint.commence(request, response, e);
                         return;
                     }
+                } else {
+                    response.sendError(HttpStatus.FORBIDDEN.value(), "FORBIDDEN");
+                    return;
+                }
+
             }
         }
         filterChain.doFilter(request, response);
