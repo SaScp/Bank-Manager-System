@@ -17,7 +17,7 @@ import ru.alex.bank_managersystem.security.filter.DeniedRequestFilter;
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
-    private final DeniedRequestFilter deniedRequestFilter;
+
     private final JwtConfigurer jwtConfigurer;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -38,7 +38,7 @@ public class SecurityConfiguration {
         http.apply(jwtConfigurer);
 
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        http.addFilterBefore(deniedRequestFilter, DisableEncodeUrlFilter.class);
+        http.addFilterBefore(new DeniedRequestFilter(), DisableEncodeUrlFilter.class);
 
         return http.build();
     }

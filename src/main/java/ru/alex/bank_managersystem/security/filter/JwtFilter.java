@@ -56,15 +56,19 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             final var token = bearerToken.substring(7);
+
             if (!token.isEmpty() && jwtService.validRefreshToken(token)) {
                     try {
                         final var authentication = jwtService.getAuthentication(token);
                         try {
                             final var authResult = authenticationManager.authenticate(authentication);
                             final var context = this.securityContextHolderStrategy.createEmptyContext();
+
                             context.setAuthentication(authResult);
+
                             this.securityContextHolderStrategy.setContext(context);
                             this.securityContextRepository.saveContext(context, request, response);
+
                         } catch (AuthenticationException authenticationException) {
                             this.securityContextHolderStrategy.clearContext();
                             this.authenticationEntryPoint.commence(request, response, authenticationException);
