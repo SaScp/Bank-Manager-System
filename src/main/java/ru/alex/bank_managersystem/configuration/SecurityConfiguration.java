@@ -29,7 +29,7 @@ public class SecurityConfiguration {
 
         http.authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
                 authorizationManagerRequestMatcherRegistry
-                        .requestMatchers("/error")
+                        .requestMatchers("/error", "/v1/authentication/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated()

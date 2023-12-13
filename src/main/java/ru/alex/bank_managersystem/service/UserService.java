@@ -12,4 +12,5 @@ public interface UserService {
     UserDTO getUserByAuthentication(DefaultUserDetails defaultUserDetails);
     User getUserByUUID(final String UUID);
 
+
 }
