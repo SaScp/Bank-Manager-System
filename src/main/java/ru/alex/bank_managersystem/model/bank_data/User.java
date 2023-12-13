@@ -13,6 +13,20 @@ import java.util.Set;
 @Data
 public class User {
 
+    public User(String userId,
+                String username,
+                String password,
+                String email,
+                String fullName,
+                ZonedDateTime dateOfBirth) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.fullName = fullName;
+        this.dateOfBirth = dateOfBirth;
+    }
+
     @Id
     @Column(name = "user_id")
     private String userId;
@@ -40,4 +54,8 @@ public class User {
 
     @OneToMany(mappedBy = "user_id")
     private List<CreditHistory> creditHistories;
+
+    public User() {
+
+    }
 }

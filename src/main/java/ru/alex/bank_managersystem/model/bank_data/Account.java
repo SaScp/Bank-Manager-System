@@ -1,6 +1,7 @@
 package ru.alex.bank_managersystem.model.bank_data;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.ZonedDateTime;
@@ -10,6 +11,17 @@ import java.util.List;
 @Entity
 @Table(name = "t_account")
 public class Account {
+    public Account(String accountId,
+                   Double balance,
+                   String accountType,
+                   ZonedDateTime dateCreated) {
+        this.accountId = accountId;
+        this.balance = balance;
+        this.accountType = accountType;
+        this.dateCreated = dateCreated;
+    }
+
+    public Account() {}
 
     @Id
     @Column(name = "account_id")
