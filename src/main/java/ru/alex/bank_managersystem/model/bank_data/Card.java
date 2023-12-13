@@ -10,7 +10,6 @@ import java.time.ZonedDateTime;
 @Table(name = "t_card")
 public class Card {
 
-
     @Id
     @Column(name = "card_id")
     private String cardId;

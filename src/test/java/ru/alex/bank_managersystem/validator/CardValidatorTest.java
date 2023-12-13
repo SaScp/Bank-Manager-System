@@ -1,4 +1,4 @@
-package ru.alex.bank_managersystem;
+package ru.alex.bank_managersystem.validator;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;

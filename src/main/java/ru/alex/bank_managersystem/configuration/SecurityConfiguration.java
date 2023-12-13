@@ -1,6 +1,5 @@
 package ru.alex.bank_managersystem.configuration;
 
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,21 +8,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.session.DisableEncodeUrlFilter;
+import ru.alex.bank_managersystem.security.configurer.JwtConfigurer;
 import ru.alex.bank_managersystem.security.filter.DeniedRequestFilter;
-import ru.alex.bank_managersystem.security.filter.JwtFilter;
-
-import java.time.ZonedDateTime;
-import java.util.TimeZone;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
-    private final DeniedRequestFilter deniedRequestFilter;
-    private final JwtFilter jwtFilter;
+
+    private final JwtConfigurer jwtConfigurer;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -32,25 +27,18 @@ public class SecurityConfiguration {
         http.cors(AbstractHttpConfigurer::disable);
         http.anonymous(AbstractHttpConfigurer::disable);
 
-        http.exceptionHandling(httpSecurityExceptionHandlingConfigurer ->
-                httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint((request, response, authException) -> {
-                    response.setContentType("application/json");
-                    response.getWriter().write(String.format("{'code':'69', 'msg':'Ty daun? ne rabotaet ne vidish cnto li', 'time':'$t'}", ZonedDateTime.now()));
-                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                }));
-
         http.authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
                 authorizationManagerRequestMatcherRegistry
-                        .requestMatchers("/error")
+                        .requestMatchers("/error", "/v1/authentication/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated()
         );
 
-        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http.apply(jwtConfigurer);
 
-        http.addFilterBefore(deniedRequestFilter, DisableEncodeUrlFilter.class);
-        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http.addFilterBefore(new DeniedRequestFilter(), DisableEncodeUrlFilter.class);
 
         return http.build();
     }

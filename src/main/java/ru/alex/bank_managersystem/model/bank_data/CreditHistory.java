@@ -16,7 +16,7 @@ public class CreditHistory {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    private User user_id;
+    private User user;
 
     @Column(name = "credit_amount")
     private Double creditAmount;
