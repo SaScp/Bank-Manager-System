@@ -10,9 +10,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
 
-@Converts({
-        @Convert(attributeName = "role", converter = RoleConvertor.class)
-})
+
 @Builder
 @Entity
 @Table
@@ -53,7 +51,6 @@ public class User {
     private ZonedDateTime dateOfBirth;
 
     @Column(name = "c_role")
-    @Convert(converter = RoleConvertor.class)
     private Role role;
 
     @OneToMany(mappedBy = "user")
