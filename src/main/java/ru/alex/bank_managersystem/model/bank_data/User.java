@@ -46,8 +46,8 @@ public class User {
     @Column(name = "date_of_birth")
     private ZonedDateTime dateOfBirth;
 
-    @OneToMany(mappedBy = "user")
-    private Set<Role> roles;
+    @Column(name = "c_role")
+    private Role role;
 
     @OneToMany(mappedBy = "user")
     private List<Account> accounts;

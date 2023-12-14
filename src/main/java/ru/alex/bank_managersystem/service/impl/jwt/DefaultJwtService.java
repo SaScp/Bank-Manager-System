@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import ru.alex.bank_managersystem.model.bank_data.Role;
 import ru.alex.bank_managersystem.model.bank_data.User;
@@ -23,7 +22,6 @@ import ru.alex.bank_managersystem.util.exception.AccessDeniedException;
 import java.sql.Date;
 import java.time.Instant;
 import java.time.ZonedDateTime;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -47,17 +45,13 @@ public class DefaultJwtService implements JwtService {
     @Override
     public String createAccessToken(String uuid,
                                     String email,
-                                    Set<Role> role) {
+                                    Role role) {
 
         return JWT.create()
                 .withSubject("user")
                 .withClaim("id", uuid)
                 .withClaim("email", email).
-                withClaim("roles",
-                        role.stream()
-                                .map(this::getRole)
-                                .collect(Collectors.toList())
-                )
+                withClaim("roles", role.name())
                 .withIssuedAt(Instant.from(now))
                 .withIssuer("Server")
                 .withExpiresAt(Instant.from(now.plusMinutes(90)))
@@ -91,7 +85,7 @@ public class DefaultJwtService implements JwtService {
 
         jwtResponse.setUuid(id);
         jwtResponse.setUsername(user.getEmail());
-        jwtResponse.setAccessToken(createAccessToken(id, user.getEmail(), user.getRoles()));
+        jwtResponse.setAccessToken(createAccessToken(id, user.getEmail(), user.getRole()));
         jwtResponse.setRefreshToken(createRefreshToken(id, user.getEmail()));
 
         return jwtResponse;
@@ -153,6 +147,6 @@ public class DefaultJwtService implements JwtService {
         return decodedJWT;
     }
     private String getRole(Role role) {
-        return role.getRoleName();
+        return role.name();
     }
 }
