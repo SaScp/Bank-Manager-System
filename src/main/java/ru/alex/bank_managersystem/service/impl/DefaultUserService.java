@@ -17,6 +17,7 @@ import ru.alex.bank_managersystem.util.exception.SaveUserException;
 import ru.alex.bank_managersystem.util.exception.UserNotFoundException;
 import ru.alex.bank_managersystem.util.validator.UserValidator;
 
+import java.security.Principal;
 import java.util.UUID;
 
 @Service
@@ -26,12 +27,6 @@ public class DefaultUserService implements UserService {
 
     private final UserRepository userRepository;
     private final UserValidator userValidator;
-    @Override
-    public UserDTO getUserByAuthentication(DefaultUserDetails defaultUserDetails) {
-        return UserConverter.convertUserToUserDTO(userRepository
-                .findByEmail(defaultUserDetails.getUsername())
-                .orElseThrow(() -> new UserNotFoundException("User with email, not Found")));
-    }
 
     @Override
     public User getUserByUUID(final String UUID) {
@@ -54,5 +49,13 @@ public class DefaultUserService implements UserService {
 
         userRepository.save(user);
     }
+
+    @Override
+    public UserDTO getUserByPrincipal(Principal principal) {
+        return UserConverter.convertUserToUserDTO(userRepository
+                .findByEmail(principal.getName())
+                .orElseThrow(() -> new UserNotFoundException("User with email, not Found")));
+    }
+
 
 }

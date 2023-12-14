@@ -25,4 +25,5 @@ public class UserValidator implements Validator {
             errors.rejectValue("email", "401", "the user with this email already exists");
         }
     }
+
 }

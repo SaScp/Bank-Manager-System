@@ -9,11 +9,10 @@ import ru.alex.bank_managersystem.security.authetication.DefaultUserDetails;
 import java.security.Principal;
 
 public interface UserService {
-
-    UserDTO getUserByAuthentication(DefaultUserDetails defaultUserDetails);
     User getUserByUUID(final String UUID);
 
     void save(User user,  BindingResult bindingResult);
 
+    UserDTO getUserByPrincipal(Principal principal);
 
 }

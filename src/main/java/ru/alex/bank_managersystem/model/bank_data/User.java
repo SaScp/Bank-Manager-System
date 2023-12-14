@@ -2,12 +2,18 @@ package ru.alex.bank_managersystem.model.bank_data;
 
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
+import ru.alex.bank_managersystem.util.converter.RoleConvertor;
 
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
 
+@Converts({
+        @Convert(attributeName = "role", converter = RoleConvertor.class)
+})
+@Builder
 @Entity
 @Table
 @Data
@@ -47,6 +53,7 @@ public class User {
     private ZonedDateTime dateOfBirth;
 
     @Column(name = "c_role")
+    @Convert(converter = RoleConvertor.class)
     private Role role;
 
     @OneToMany(mappedBy = "user")
