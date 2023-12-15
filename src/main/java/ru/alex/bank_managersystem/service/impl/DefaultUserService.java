@@ -69,7 +69,7 @@ public class DefaultUserService implements UserService {
 
     @Override
     public List<CreditHistory> getCreditHistoryByPrincipal(Principal principal) {
-        List<CreditHistory> creditHistories = userRepository.findByEmail(principal.getName())
+        final var creditHistories = userRepository.findByEmail(principal.getName())
                 .orElseThrow(() -> new UserNotFoundException("User not found"))
                 .getCreditHistories();
         if (creditHistories.isEmpty()) {

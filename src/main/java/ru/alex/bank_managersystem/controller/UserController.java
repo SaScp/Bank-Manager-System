@@ -2,6 +2,8 @@ package ru.alex.bank_managersystem.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,15 +25,21 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/")
-    public UserDTO getUser(Principal principal) {
-        return UserConverter.convertUserToUserDTO(userService.getUserByPrincipal(principal));
+    public ResponseEntity<UserDTO> getUser(Principal principal) {
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(UserConverter
+                        .convertUserToUserDTO(userService.getUserByPrincipal(principal))
+                );
     }
 
     @GetMapping("/credit-history")
-    public List<CreditHistoryDTO> getCreditHistory(Principal principal) {
-        return userService.getCreditHistoryByPrincipal(principal)
-                .stream()
-                .map(CreditHistoryConverter::convertCreditHistoryToCreditHistoryDto)
-                .toList();
+    public ResponseEntity<List<CreditHistoryDTO>> getCreditHistory(Principal principal) {
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(userService.getCreditHistoryByPrincipal(principal).stream()
+                        .map(CreditHistoryConverter::convertCreditHistoryToCreditHistoryDto)
+                        .toList()
+                );
     }
 }
