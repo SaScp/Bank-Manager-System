@@ -21,7 +21,8 @@ public class UserValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
 
-        if (userRepository.findByEmail(((User)target).getEmail()).isPresent()) {
+        final var user = (User)target;
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             errors.rejectValue("email", "401", "the user with this email already exists");
         }
     }

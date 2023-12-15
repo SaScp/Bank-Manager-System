@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.alex.bank_managersystem.model.dto.user.UserDTO;
 import ru.alex.bank_managersystem.model.dto.user.auth.RegistrationUserDTO;
 import ru.alex.bank_managersystem.model.response.JwtResponse;
+import ru.alex.bank_managersystem.service.AuthenticationService;
 import ru.alex.bank_managersystem.service.UserService;
 
 @RestController
@@ -20,8 +21,11 @@ public class AuthenticationController {
     @Qualifier("defaultUserService")
     private final UserService userService;
 
+    @Qualifier("defaultAuthenticationService")
+    private final AuthenticationService authenticationService;
+
     @PostMapping("/registration")
     public ResponseEntity<JwtResponse> registrationUser(@RequestBody RegistrationUserDTO registrationUserDTO) {
-        return null;
+        return ResponseEntity.ok().body(authenticationService.registration(registrationUserDTO));
     }
 }

@@ -1,5 +1,6 @@
 package ru.alex.bank_managersystem.security.authetication;
 
+import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,6 +11,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Builder
 public class DefaultUserDetails implements UserDetails {
 
     private User user;
@@ -38,7 +40,7 @@ public class DefaultUserDetails implements UserDetails {
     @Override
     public boolean isAccountNonLocked() {
         List<String> auth = authorities.stream().map(SimpleGrantedAuthority::getAuthority).toList();
-        return !auth.contains("ROLE_BLOCK");
+        return auth.contains("ROLE_BLOCK");
     }
 
     @Override
