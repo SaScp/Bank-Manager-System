@@ -11,12 +11,16 @@ import java.util.List;
 import java.util.Set;
 
 
-@Builder
+
+
 @Entity
 @Table
 @Data
 public class User {
 
+    public User() {
+
+    }
     public User(String userId,
                 String username,
                 String password,
@@ -59,7 +63,4 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<CreditHistory> creditHistories;
 
-    public User() {
-
-    }
 }

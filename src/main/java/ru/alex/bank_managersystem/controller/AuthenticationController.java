@@ -3,6 +3,7 @@ package ru.alex.bank_managersystem.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,7 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/registration")
-    public ResponseEntity<JwtResponse> registrationUser(@RequestBody RegistrationUserDTO registrationUserDTO) {
-        return ResponseEntity.ok().body(authenticationService.registration(registrationUserDTO));
+    public ResponseEntity<JwtResponse> registrationUser(@RequestBody RegistrationUserDTO registrationUserDTO, BindingResult bindingResult) {
+        return ResponseEntity.ok().body(authenticationService.registration(registrationUserDTO, bindingResult));
     }
 }

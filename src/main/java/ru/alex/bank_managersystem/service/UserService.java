@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface UserService {
     User getUserByUUID(final String UUID);
 
-    void save(User user,  BindingResult bindingResult);
+    User save(User user,  BindingResult bindingResult);
 
     UserDTO getUserByPrincipal(Principal principal);
 

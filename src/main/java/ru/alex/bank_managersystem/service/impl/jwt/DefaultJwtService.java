@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import ru.alex.bank_managersystem.model.bank_data.Role;
 import ru.alex.bank_managersystem.model.bank_data.User;
@@ -32,7 +33,8 @@ public class DefaultJwtService implements JwtService {
     @Qualifier("defaultUserService")
     private final UserService userService;
 
-    private final DefaultUserDetailsService userDetailsService;
+    @Qualifier("defaultUserDetailsService")
+    private final UserDetailsService userDetailsService;
 
     @Value("${jwt.secret.access}")
     private String accessSecret;

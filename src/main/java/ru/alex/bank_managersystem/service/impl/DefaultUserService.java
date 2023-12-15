@@ -36,11 +36,7 @@ public class DefaultUserService implements UserService {
     }
 
     @Transactional
-    public void save(User user,  BindingResult bindingResult) {
-        userValidator.validate(user, bindingResult);
-
-        if (bindingResult.hasErrors())
-            throw new SaveUserException(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
+    public User save(User user,  BindingResult bindingResult) {
 
         var newUUID = UUID.randomUUID().toString();
         if (userRepository.findById(newUUID).isPresent()) {
@@ -49,7 +45,7 @@ public class DefaultUserService implements UserService {
         user.setUserId(newUUID);
         user.setRole(Role.USER);
 
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     @Override
