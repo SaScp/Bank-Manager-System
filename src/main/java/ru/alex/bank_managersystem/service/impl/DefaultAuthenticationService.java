@@ -33,14 +33,14 @@ public class DefaultAuthenticationService implements AuthenticationService {
     private final JwtService jwtService;
     @Override
     public JwtResponse registration(RegistrationUserDTO userDTO, BindingResult bindingResult) {
-        userValidator.validate(userDTO, bindingResult);
+        /*userValidator.validate(userDTO, bindingResult);
 
 
         final var validators = List.of(new EmailValidator(), new PasswordValidator(), userValidator);
         for (var i : validators) {
             if (i.supports(userDTO.getClass()))
                 i.validate(userDTO, bindingResult);
-        }
+        }*/
         if (bindingResult.hasErrors()) {
             throw new SaveUserException(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }

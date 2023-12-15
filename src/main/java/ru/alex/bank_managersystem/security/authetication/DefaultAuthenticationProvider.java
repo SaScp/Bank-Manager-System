@@ -33,6 +33,7 @@ public class DefaultAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("Password error");
         }
         if (userDetails.isAccountNonLocked()) {
+
             throw new AccountHasBlockException(STR."Account\{authentication.getName()} has error");
         }
         return new UsernamePasswordAuthenticationToken(

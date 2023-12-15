@@ -18,6 +18,7 @@ import ru.alex.bank_managersystem.util.exception.UserNotFoundException;
 import ru.alex.bank_managersystem.util.validator.UserValidator;
 
 import java.security.Principal;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -44,6 +45,7 @@ public class DefaultUserService implements UserService {
         }
         user.setUserId(newUUID);
         user.setRole(Role.USER);
+        user.setDateOfBirth(ZonedDateTime.now());
 
         return userRepository.save(user);
     }

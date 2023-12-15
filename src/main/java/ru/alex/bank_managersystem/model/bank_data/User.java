@@ -14,7 +14,7 @@ import java.util.Set;
 
 
 @Entity
-@Table
+@Table(name = "t_user")
 @Data
 public class User {
 
