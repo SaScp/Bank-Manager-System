@@ -18,14 +18,14 @@ public class CardValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        Card card = (Card) target;
+        final var card = (Card) target;
         if (!isCardCorrect(card.getCardNumber())) {
             errors.rejectValue("cardNumber", "500", "the card is not valid");
         }
     }
 
     private boolean isLuna(final String card) {
-        List<Integer> reversCardArray = Arrays.stream(new StringBuilder()
+        final var reversCardArray = Arrays.stream(new StringBuilder()
                         .append(card)
                         .reverse()
                         .toString()

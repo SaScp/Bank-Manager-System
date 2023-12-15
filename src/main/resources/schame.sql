@@ -6,15 +6,10 @@ CREATE TABLE IF NOT EXISTS t_user (
     password VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE ,
     full_name VARCHAR(100) NOT NULL,
-    date_of_birth DATE NOT NULL
+    date_of_birth DATE NOT NULL,
+    c_role varchar(255) NOT NULL
     );
--- Создание таблицы для ролей пользователей
-CREATE TABLE  NOT EXISTS t_role (
-    role_id varchar(255) PRIMARY KEY,
-    role_name VARCHAR(50) NOT NULL,
-    user_id varchar(255) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES t_user(user_id) ON DELETE CASCADE ON UPDATE CASCADE
-    );
+
 
 -- Создание таблицы для счетов пользователей
 CREATE TABLE IF NOT EXISTS t_account (

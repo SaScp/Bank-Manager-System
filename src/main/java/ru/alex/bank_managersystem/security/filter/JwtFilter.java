@@ -39,8 +39,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private final SecurityContextRepository securityContextRepository =
             new RequestAttributeSecurityContextRepository();
-
-
+    
     private final AuthenticationManager authenticationManager;
 
     public JwtFilter(JwtService jwtService, AuthenticationEntryPoint authenticationEntryPoint, AuthenticationManager authenticationManager) {

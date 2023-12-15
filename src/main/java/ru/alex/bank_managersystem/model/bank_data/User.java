@@ -2,17 +2,25 @@ package ru.alex.bank_managersystem.model.bank_data;
 
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
+import ru.alex.bank_managersystem.util.converter.RoleConvertor;
 
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
 
+
+
+
 @Entity
-@Table
+@Table(name = "t_user")
 @Data
 public class User {
 
+    public User() {
+
+    }
     public User(String userId,
                 String username,
                 String password,
@@ -46,8 +54,8 @@ public class User {
     @Column(name = "date_of_birth")
     private ZonedDateTime dateOfBirth;
 
-    @OneToMany(mappedBy = "user")
-    private Set<Role> roles;
+    @Column(name = "c_role")
+    private Role role;
 
     @OneToMany(mappedBy = "user")
     private List<Account> accounts;
@@ -55,7 +63,4 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<CreditHistory> creditHistories;
 
-    public User() {
-
-    }
 }

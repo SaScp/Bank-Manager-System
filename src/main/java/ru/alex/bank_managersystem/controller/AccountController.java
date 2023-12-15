@@ -1,4 +1,4 @@
 package ru.alex.bank_managersystem.controller;
 
-public class AccontController {
+public class AccountController {
 }

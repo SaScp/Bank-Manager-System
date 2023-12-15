@@ -1,9 +1,11 @@
 package ru.alex.bank_managersystem.model.dto.user.auth;
 
 import jakarta.persistence.Column;
+import lombok.Data;
 
 import java.time.ZonedDateTime;
 
+@Data
 public class RegistrationUserDTO {
 
 
