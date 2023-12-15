@@ -6,8 +6,9 @@ import lombok.Data;
 
 import java.time.ZonedDateTime;
 
-@Builder
+
 @Data
+@Builder
 public class UserDTO {
 
     private String username;
@@ -18,5 +19,7 @@ public class UserDTO {
 
 
     private ZonedDateTime dateOfBirth;
+
+
 
 }
