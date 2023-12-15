@@ -26,7 +26,9 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/registration")
-    public ResponseEntity<JwtResponse> registrationUser(@RequestBody RegistrationUserDTO registrationUserDTO, BindingResult bindingResult) {
+    public ResponseEntity<JwtResponse> registrationUser(@RequestBody RegistrationUserDTO registrationUserDTO,
+                                                        BindingResult bindingResult
+    ) {
         return ResponseEntity.ok().body(authenticationService.registration(registrationUserDTO, bindingResult));
     }
 }
