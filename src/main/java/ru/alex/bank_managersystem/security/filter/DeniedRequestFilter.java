@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -21,7 +22,7 @@ public class DeniedRequestFilter extends OncePerRequestFilter {
         String header = request.getHeader(HttpHeaders.USER_AGENT);
 
         if (header.startsWith("curl")) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            response.sendError(HttpStatus.UNAUTHORIZED.value(), "curl - user agent is illegal");
             return;
         }
         filterChain.doFilter(request, response);

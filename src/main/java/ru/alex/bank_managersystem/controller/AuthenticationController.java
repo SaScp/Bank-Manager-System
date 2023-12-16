@@ -2,6 +2,7 @@ package ru.alex.bank_managersystem.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +30,9 @@ public class AuthenticationController {
     @PostMapping("/registration")
     public ResponseEntity<JwtResponse> registrationUser(@RequestBody RegistrationUserDTO registrationUserDTO,
                                                         BindingResult bindingResult) {
-        return ResponseEntity.ok().body(authenticationService.registration(registrationUserDTO, bindingResult));
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(authenticationService.registration(registrationUserDTO, bindingResult));
     }
     @PostMapping("/login")
     private ResponseEntity<JwtResponse> loginUser(@RequestBody LoginUserDTO loginUserDTO, BindingResult bindingResult) {
