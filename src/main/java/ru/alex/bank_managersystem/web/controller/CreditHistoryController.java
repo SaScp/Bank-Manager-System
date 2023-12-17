@@ -1,4 +1,4 @@
-package ru.alex.bank_managersystem.controller;
+package ru.alex.bank_managersystem.web.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

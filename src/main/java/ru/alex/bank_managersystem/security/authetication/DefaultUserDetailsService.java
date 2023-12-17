@@ -27,10 +27,10 @@ public class DefaultUserDetailsService implements UserDetailsService {
 
         final var optionalUser = userService.getUserByEmail(email);
 
-        if (optionalUser.isEmpty()) {
+        if (optionalUser == null) {
             throw new UsernameNotFoundException("User not found");
         }
-        final var user = optionalUser.get();
+        final var user = optionalUser;
         return DefaultUserDetails
                 .builder()
                 .user(user)

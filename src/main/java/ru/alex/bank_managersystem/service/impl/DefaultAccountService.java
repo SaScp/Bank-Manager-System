@@ -28,11 +28,14 @@ public class DefaultAccountService implements AccountService {
     private final CardValidator cardValidator;
 
     @Override
+    public Account getAccountById(String id) {
+        return accountRepository.findById(id)
+                .orElseThrow(() -> new MoneyAccountNotFoundException("account not found"));
+    }
+    @Override
     public void transfer(TransferDTO transferDTO, Principal principal) {
-        final var fromAccount = getAccountById(transferDTO.getFromAccount());
-        if (!fromAccount.getUser().getEmail().equals(principal.getName())) {
-            throw new AccessDeniedException("access denied");
-        }
+        //TODO переделить как нибудь
+      /*  final var fromAccount = getAccountById(principal.getName());
         final var toAccount = getAccountById(transferDTO.getToAccount());
         double result = transferDTO.getMoney() - fromAccount.getBalance();
         if (result >= 0.0) {
@@ -40,15 +43,9 @@ public class DefaultAccountService implements AccountService {
             toAccount.setBalance(transferDTO.getMoney() + toAccount.getBalance());
         } else {
             throw new InsufficientMoneysException("insufficient money");
-        }
-    }
+        }*/
 
-    @Override
-    public Account getAccountById(String id) {
-        return accountRepository.findById(id)
-                .orElseThrow(() -> new MoneyAccountNotFoundException("account not found"));
     }
-
     @Override
     public void addCard(Card card, String accountId, BindingResult bindingResult) {
 
@@ -68,6 +65,8 @@ public class DefaultAccountService implements AccountService {
     public List<History> getHistory(String id) {
         return accountRepository.findById(id).orElseThrow(() -> new MoneyAccountNotFoundException("Account not found")).getHistories();
     }
+
+
 
 
 }

@@ -10,7 +10,6 @@ import java.security.Principal;
 import java.util.List;
 
 public interface AccountService {
-
     void transfer(TransferDTO transferDTO, Principal principal);
 
     Account getAccountById(String id);
@@ -18,4 +17,6 @@ public interface AccountService {
     void addCard(Card Card, String accountId, BindingResult bindingResult);
 
     List<History> getHistory(String id);
+
+
 }

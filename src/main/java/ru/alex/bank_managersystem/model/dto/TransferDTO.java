@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class TransferDTO {
-    double money;
-    String fromAccount;
-    String toAccount;
+    private double money;
+    private String fromAccount;
+    private String toAccount;
 }

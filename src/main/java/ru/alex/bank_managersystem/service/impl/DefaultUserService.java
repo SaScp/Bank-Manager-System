@@ -9,13 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import ru.alex.bank_managersystem.model.bank_data.*;
 import ru.alex.bank_managersystem.model.dto.AccountDTO;
-import ru.alex.bank_managersystem.model.dto.user.UserDTO;
 import ru.alex.bank_managersystem.repository.AccountRepository;
 import ru.alex.bank_managersystem.repository.UserRepository;
 import ru.alex.bank_managersystem.service.UserService;
-import ru.alex.bank_managersystem.util.converter.UserConverter;
-import ru.alex.bank_managersystem.util.exception.AccountsIsEmptyExceotion;
-import ru.alex.bank_managersystem.util.exception.CreditHistoryIsEmptyException;
 import ru.alex.bank_managersystem.util.exception.ResourceNotFoundException;
 import ru.alex.bank_managersystem.util.exception.UserNotFoundException;
 
@@ -23,7 +19,6 @@ import java.security.Principal;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -103,7 +98,10 @@ public class DefaultUserService implements UserService {
         userRepository.save(user);
         return true;
     }
-    public  AccountType chooseType(String type) {
+
+
+
+    private AccountType chooseType(String type) {
         return switch (type) {
             case "DEPOSIT" ->  AccountType.DEPOSIT;
             case "CREDIT" ->  AccountType.CREDIT;

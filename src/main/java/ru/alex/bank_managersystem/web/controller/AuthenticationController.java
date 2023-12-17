@@ -1,4 +1,4 @@
-package ru.alex.bank_managersystem.controller;
+package ru.alex.bank_managersystem.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;

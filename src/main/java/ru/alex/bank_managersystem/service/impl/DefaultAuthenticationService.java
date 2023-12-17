@@ -18,7 +18,7 @@ import ru.alex.bank_managersystem.service.JwtService;
 import ru.alex.bank_managersystem.service.UserService;
 import ru.alex.bank_managersystem.util.converter.UserConverter;
 import ru.alex.bank_managersystem.util.exception.LoginUserException;
-import ru.alex.bank_managersystem.util.exception.SaveUserException;
+import ru.alex.bank_managersystem.util.exception.RegistrationUserException;
 import ru.alex.bank_managersystem.util.validator.EmailValidator;
 import ru.alex.bank_managersystem.util.validator.PasswordValidator;
 import ru.alex.bank_managersystem.util.validator.UserValidator;
@@ -49,7 +49,7 @@ public class DefaultAuthenticationService implements AuthenticationService {
         validationData(preUserSave, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            throw new SaveUserException(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
+            throw new RegistrationUserException(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
 
         final var user = userService.save(UserConverter.convertRegistrationUserDtoToUser(userDTO), bindingResult);
