@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.alex.bank_managersystem.model.bank_data.Account;
 import ru.alex.bank_managersystem.model.dto.AccountDTO;
 import ru.alex.bank_managersystem.model.dto.user.CreditHistoryDTO;
 import ru.alex.bank_managersystem.model.dto.user.UserDTO;
@@ -53,9 +54,9 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<HttpStatus> addAccount(Principal principal, @RequestBody AccountDTO accountDTO) {
+    public ResponseEntity<AccountDTO> addAccount(Principal principal, @RequestBody AccountDTO accountDTO) {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(userService.addAccount(principal, accountDTO)? HttpStatus.ACCEPTED : HttpStatus.BAD_GATEWAY);
+                .body(AccountConverter.convertAccountToAccountDTO(userService.addAccount(principal, accountDTO)));
     }
 }

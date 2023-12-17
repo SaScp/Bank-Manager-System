@@ -24,5 +24,5 @@ public interface UserService {
 
     List<Account> getAccountByPrincipal(Principal principal);
 
-    boolean addAccount(Principal principal, AccountDTO accountDTO);
+    Account addAccount(Principal principal, AccountDTO accountDTO);
 }

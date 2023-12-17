@@ -7,6 +7,7 @@ import lombok.Data;
 import ru.alex.bank_managersystem.model.dto.AccountDTO;
 import ru.alex.bank_managersystem.util.converter.RoleConvertor;
 
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
@@ -17,7 +18,7 @@ import java.util.Set;
 @Entity
 @Table(name = "t_user")
 @Data
-public class User {
+public class User implements Serializable {
 
     public User() {
 
@@ -58,10 +59,10 @@ public class User {
     @Column(name = "c_role")
     private Role role;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Account> accounts;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<CreditHistory> creditHistories;
 
     public void addAccount(Account account) {

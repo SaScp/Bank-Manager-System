@@ -4,6 +4,7 @@ import org.springframework.validation.BindingResult;
 import ru.alex.bank_managersystem.model.bank_data.Account;
 import ru.alex.bank_managersystem.model.bank_data.Card;
 import ru.alex.bank_managersystem.model.bank_data.History;
+import ru.alex.bank_managersystem.model.bank_data.User;
 import ru.alex.bank_managersystem.model.dto.TransferDTO;
 
 import java.security.Principal;
@@ -18,5 +19,6 @@ public interface AccountService {
 
     List<History> getHistory(String id);
 
+    Account save(Account account, User user);
 
 }

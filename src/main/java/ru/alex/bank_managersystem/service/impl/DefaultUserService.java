@@ -11,6 +11,7 @@ import ru.alex.bank_managersystem.model.bank_data.*;
 import ru.alex.bank_managersystem.model.dto.AccountDTO;
 import ru.alex.bank_managersystem.repository.AccountRepository;
 import ru.alex.bank_managersystem.repository.UserRepository;
+import ru.alex.bank_managersystem.service.AccountService;
 import ru.alex.bank_managersystem.service.UserService;
 import ru.alex.bank_managersystem.util.exception.ResourceNotFoundException;
 import ru.alex.bank_managersystem.util.exception.UserNotFoundException;
@@ -31,7 +32,8 @@ public class DefaultUserService implements UserService {
     @Qualifier("bCryptPasswordEncoder")
     private final PasswordEncoder passwordEncoder;
 
-    private final AccountRepository accountRepository;
+    @Qualifier("defaultAccountService")
+    private final AccountService accountService;
 
     @Override
     public User getUserByUUID(final String UUID) {
@@ -50,7 +52,8 @@ public class DefaultUserService implements UserService {
         user.setUserId(newUUID);
         user.setRole(Role.USER);
         user.setDateOfBirth(ZonedDateTime.now());
-
+        user.setAccounts(new ArrayList<>());
+        user.setCreditHistories(new ArrayList<>() );
         return userRepository.save(user);
     }
 
@@ -76,27 +79,15 @@ public class DefaultUserService implements UserService {
         return getUserByPrincipal(principal).getAccounts();
     }
 
+    @Transactional
     @Override
-    public boolean addAccount(Principal principal, AccountDTO accountDTO) {
+    public Account addAccount(Principal principal, AccountDTO accountDTO) {
         final var user = getUserByPrincipal(principal);
         final var account = new Account();
 
-        var id = UUID.randomUUID().toString();
-        if (accountRepository.findById(id).isPresent()) {
-            id = UUID.randomUUID().toString();
-        }
-        account.setAccountId(id);
-        account.setUser(user);
-        account.setBalance(0.0);
-        account.setCards(new ArrayList<>());
-        account.setDateCreated(ZonedDateTime.now());
         account.setAccountType(chooseType(accountDTO.getAccountType()));
 
-        accountRepository.save(account);
-        user.addAccount(account);
-
-        userRepository.save(user);
-        return true;
+        return accountService.save(account, user);
     }
 
 

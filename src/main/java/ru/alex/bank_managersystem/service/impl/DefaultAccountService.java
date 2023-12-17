@@ -4,21 +4,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
-import ru.alex.bank_managersystem.model.bank_data.Account;
-import ru.alex.bank_managersystem.model.bank_data.Card;
-import ru.alex.bank_managersystem.model.bank_data.History;
+import ru.alex.bank_managersystem.model.bank_data.*;
 import ru.alex.bank_managersystem.model.dto.TransferDTO;
 import ru.alex.bank_managersystem.repository.AccountRepository;
 import ru.alex.bank_managersystem.service.AccountService;
 import ru.alex.bank_managersystem.service.UserService;
-import ru.alex.bank_managersystem.util.exception.AccessDeniedException;
-import ru.alex.bank_managersystem.util.exception.CardValidatorException;
-import ru.alex.bank_managersystem.util.exception.InsufficientMoneysException;
-import ru.alex.bank_managersystem.util.exception.MoneyAccountNotFoundException;
+import ru.alex.bank_managersystem.util.exception.*;
 import ru.alex.bank_managersystem.util.validator.CardValidator;
 
 import java.security.Principal;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +24,21 @@ public class DefaultAccountService implements AccountService {
 
     private final AccountRepository accountRepository;
     private final CardValidator cardValidator;
+
+
+    public Account save(Account account, User user) {
+        var id = UUID.randomUUID().toString();
+        if (accountRepository.findById(id).isPresent()) {
+            id = UUID.randomUUID().toString();
+        }
+        account.setAccountId(id);
+        account.setUser(user);
+        account.setBalance(0.0);
+        account.setCards(new ArrayList<>());
+        account.setDateCreated(ZonedDateTime.now());
+
+        return accountRepository.save(account);
+    }
 
     @Override
     public Account getAccountById(String id) {
@@ -66,7 +79,15 @@ public class DefaultAccountService implements AccountService {
         return accountRepository.findById(id).orElseThrow(() -> new MoneyAccountNotFoundException("Account not found")).getHistories();
     }
 
-
+    private AccountType chooseType(String type) {
+        return switch (type) {
+            case "DEPOSIT" ->  AccountType.DEPOSIT;
+            case "CREDIT" ->  AccountType.CREDIT;
+            case "CALCULATED" ->  AccountType.CALCULATED;
+            case "CURRENCY" ->  AccountType.CURRENCY;
+            default -> throw new ResourceNotFoundException(STR."Unexpected value: \{type}");
+        };
+    }
 
 
 }
