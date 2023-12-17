@@ -10,6 +10,9 @@ import java.time.ZonedDateTime;
 @Data
 @Builder
 public class AccountDTO {
+
+    private String accountId;
+
     private Double balance;
 
     private String accountType;
