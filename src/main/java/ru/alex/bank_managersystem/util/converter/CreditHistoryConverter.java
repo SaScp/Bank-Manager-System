@@ -17,7 +17,7 @@ public class CreditHistoryConverter implements AttributeConverter<CreditStatus, 
                 .creditDate(creditHistory.getCreditDate())
                 .interestRate(creditHistory.getInterestRate())
                 .repaymentDate(creditHistory.getRepaymentDate())
-                .status(creditHistory.getStatus())
+                .status(creditHistory.getStatus().name())
                 .build();
     }
 
