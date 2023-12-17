@@ -46,4 +46,8 @@ public class Account {
 
     @OneToMany(mappedBy = "account")
     private List<History> histories;
+
+    public void addCard(Card card) {
+        cards.add(card);
+    }
 }
