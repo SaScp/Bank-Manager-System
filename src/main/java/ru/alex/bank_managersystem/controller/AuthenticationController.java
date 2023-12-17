@@ -30,12 +30,14 @@ public class AuthenticationController {
     @PostMapping("/registration")
     public ResponseEntity<JwtResponse> registrationUser(@RequestBody RegistrationUserDTO registrationUserDTO,
                                                         BindingResult bindingResult) {
-        return ResponseEntity.ok()
+        return ResponseEntity.accepted()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(authenticationService.registration(registrationUserDTO, bindingResult));
     }
     @PostMapping("/login")
     private ResponseEntity<JwtResponse> loginUser(@RequestBody LoginUserDTO loginUserDTO, BindingResult bindingResult) {
-        return null;
+        return ResponseEntity.accepted()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(authenticationService.login(loginUserDTO, bindingResult));
     }
 }

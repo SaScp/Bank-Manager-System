@@ -7,16 +7,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
-import ru.alex.bank_managersystem.model.bank_data.Account;
-import ru.alex.bank_managersystem.model.bank_data.CreditHistory;
-import ru.alex.bank_managersystem.model.bank_data.Role;
-import ru.alex.bank_managersystem.model.bank_data.User;
+import ru.alex.bank_managersystem.model.bank_data.*;
+import ru.alex.bank_managersystem.model.dto.AccountDTO;
 import ru.alex.bank_managersystem.model.dto.user.UserDTO;
+import ru.alex.bank_managersystem.repository.AccountRepository;
 import ru.alex.bank_managersystem.repository.UserRepository;
 import ru.alex.bank_managersystem.service.UserService;
 import ru.alex.bank_managersystem.util.converter.UserConverter;
 import ru.alex.bank_managersystem.util.exception.AccountsIsEmptyExceotion;
 import ru.alex.bank_managersystem.util.exception.CreditHistoryIsEmptyException;
+import ru.alex.bank_managersystem.util.exception.ResourceNotFoundException;
 import ru.alex.bank_managersystem.util.exception.UserNotFoundException;
 
 import java.security.Principal;
@@ -35,6 +35,8 @@ public class DefaultUserService implements UserService {
 
     @Qualifier("bCryptPasswordEncoder")
     private final PasswordEncoder passwordEncoder;
+
+    private final AccountRepository accountRepository;
 
     @Override
     public User getUserByUUID(final String UUID) {
@@ -59,39 +61,56 @@ public class DefaultUserService implements UserService {
 
     @Override
     public User getUserByPrincipal(Principal principal) {
-        return userRepository
-                .findByEmail(principal.getName())
-                .orElseThrow(() -> new UserNotFoundException("User with email, not Found"));
+        return getUserByEmail(principal.getName());
     }
 
     @Override
-    public Optional<User> getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
     @Override
     public List<CreditHistory> getCreditHistoryByPrincipal(Principal principal) {
-        final var creditHistories = userRepository.findByEmail(principal.getName())
-                .orElseThrow(() -> new UserNotFoundException("User not found"))
+        return getUserByPrincipal(principal)
                 .getCreditHistories();
-        if (creditHistories.isEmpty()) {
-            throw new CreditHistoryIsEmptyException("Credits not founds");
-        }
-        return creditHistories;
 
     }
 
     @Override
     public List<Account> getAccountByPrincipal(Principal principal) {
-        final var accounts = userRepository.findByEmail(principal.getName()).
-                orElseThrow(() -> new UserNotFoundException("User not found"))
-                .getAccounts();
-        if (accounts.isEmpty()) {
-            throw new AccountsIsEmptyExceotion("Accounts not found");
-        }
-        return accounts;
-
+        return getUserByPrincipal(principal).getAccounts();
     }
 
+    @Override
+    public boolean addAccount(Principal principal, AccountDTO accountDTO) {
+        final var user = getUserByPrincipal(principal);
+        final var account = new Account();
+
+        var id = UUID.randomUUID().toString();
+        if (accountRepository.findById(id).isPresent()) {
+            id = UUID.randomUUID().toString();
+        }
+        account.setAccountId(id);
+        account.setUser(user);
+        account.setBalance(0.0);
+        account.setCards(new ArrayList<>());
+        account.setDateCreated(ZonedDateTime.now());
+        account.setAccountType(chooseType(accountDTO.getAccountType()));
+
+        accountRepository.save(account);
+        user.addAccount(account);
+
+        userRepository.save(user);
+        return true;
+    }
+    public  AccountType chooseType(String type) {
+        return switch (type) {
+            case "DEPOSIT" ->  AccountType.DEPOSIT;
+            case "CREDIT" ->  AccountType.CREDIT;
+            case "CALCULATED" ->  AccountType.CALCULATED;
+            case "CURRENCY" ->  AccountType.CURRENCY;
+            default -> throw new ResourceNotFoundException(STR."Unexpected value: \{type}");
+        };
+    }
 
 }

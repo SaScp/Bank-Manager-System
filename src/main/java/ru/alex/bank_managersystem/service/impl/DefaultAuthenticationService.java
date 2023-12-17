@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
@@ -15,6 +17,7 @@ import ru.alex.bank_managersystem.service.AuthenticationService;
 import ru.alex.bank_managersystem.service.JwtService;
 import ru.alex.bank_managersystem.service.UserService;
 import ru.alex.bank_managersystem.util.converter.UserConverter;
+import ru.alex.bank_managersystem.util.exception.LoginUserException;
 import ru.alex.bank_managersystem.util.exception.SaveUserException;
 import ru.alex.bank_managersystem.util.validator.EmailValidator;
 import ru.alex.bank_managersystem.util.validator.PasswordValidator;
@@ -36,29 +39,24 @@ public class DefaultAuthenticationService implements AuthenticationService {
     private final JwtService jwtService;
 
     @Qualifier("defaultAuthenticationProvider")
-    private AuthenticationProvider authenticate;
+    private final AuthenticationProvider authenticate;
+
     @Override
     public JwtResponse registration(RegistrationUserDTO userDTO, BindingResult bindingResult) {
-        final var user = userService.save(UserConverter.convertRegistrationUserDtoToUser(userDTO), bindingResult);
 
+        final var preUserSave = UserConverter.convertRegistrationUserDtoToUser(userDTO);
 
-        final var validators = List.of(new EmailValidator(), new PasswordValidator(), userValidator);
+        validationData(preUserSave, bindingResult);
 
-        for (var i : validators) {
-            if (i.supports(user.getClass()))
-                i.validate(user, bindingResult);
-        }
         if (bindingResult.hasErrors()) {
             throw new SaveUserException(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
 
-        final var jwtResponse = new JwtResponse();
+        final var user = userService.save(UserConverter.convertRegistrationUserDtoToUser(userDTO), bindingResult);
+
         final var id = user.getUserId();
         final var email = user.getEmail();
         final var role = user.getRole();
-
-        jwtResponse.setUuid(id);
-        jwtResponse.setUsername(email);
 
         return JwtResponse.builder()
                 .uuid(id)
@@ -70,22 +68,34 @@ public class DefaultAuthenticationService implements AuthenticationService {
 
     @Override
     public JwtResponse login(LoginUserDTO userDTO, BindingResult bindingResult) {
-        JwtResponse jwtResponse = new JwtResponse();
-       /* authenticate.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO));
 
-        User user = userService.getUserByEmail(userDTO.getEmail()).orElseThrow(() -> new LoginException(""));
 
-        jwtResponse.setUuid(user.getUuid());
-        jwtResponse.setUsername(user.getEmail());
-        jwtResponse.setAccessToken(jwtService.createAccessToken(user.getUuid(), user.getEmail(), user.getRoles()));
-        jwtResponse.setRefreshToken(jwtService.createRefreshToken(user.getUuid(), user.getEmail()));
-*/
+        final var user = userService.getUserByEmail(userDTO.getEmail());
+        final var id = user.getUserId();
+        final var email = user.getEmail();
 
-        return jwtResponse;
+        Authentication authentication = authenticate.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword()));
+
+        return JwtResponse.builder()
+                .uuid(id)
+                .username(email)
+                .accessToken(jwtService.createAccessToken(id, email, user.getRole()))
+                .refreshToken(jwtService.createRefreshToken(id, email))
+                .build();
     }
 
     @Override
     public JwtResponse refresh(String refreshToken) {
         return null;
+    }
+
+    private BindingResult validationData(User userDTO, BindingResult bindingResult) {
+
+        final var validators = List.of(new EmailValidator(), new PasswordValidator(), userValidator);
+        for (var i : validators) {
+            if (i.supports(userDTO.getClass()))
+                i.validate(userDTO, bindingResult);
+        }
+        return bindingResult;
     }
 }

@@ -13,6 +13,6 @@ public class CreditHistoryController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CreditHistoryDTO> getCreditHistory(@PathVariable("id") String id) {
-
+        return null;
     }
 }

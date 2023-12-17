@@ -4,6 +4,7 @@ package ru.alex.bank_managersystem.model.bank_data;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
+import ru.alex.bank_managersystem.model.dto.AccountDTO;
 import ru.alex.bank_managersystem.util.converter.RoleConvertor;
 
 import java.time.ZonedDateTime;
@@ -63,4 +64,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<CreditHistory> creditHistories;
 
+    public void addAccount(Account account) {
+        accounts.add(account);
+    }
 }

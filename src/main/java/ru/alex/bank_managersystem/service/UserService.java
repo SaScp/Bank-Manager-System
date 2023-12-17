@@ -4,6 +4,7 @@ import org.springframework.validation.BindingResult;
 import ru.alex.bank_managersystem.model.bank_data.Account;
 import ru.alex.bank_managersystem.model.bank_data.CreditHistory;
 import ru.alex.bank_managersystem.model.bank_data.User;
+import ru.alex.bank_managersystem.model.dto.AccountDTO;
 import ru.alex.bank_managersystem.model.dto.user.UserDTO;
 
 import java.security.Principal;
@@ -17,9 +18,11 @@ public interface UserService {
 
     User getUserByPrincipal(Principal principal);
 
-    Optional<User> getUserByEmail(String email);
+    User getUserByEmail(String email);
 
     List<CreditHistory> getCreditHistoryByPrincipal(Principal principal);
 
     List<Account> getAccountByPrincipal(Principal principal);
+
+    boolean addAccount(Principal principal, AccountDTO accountDTO);
 }
