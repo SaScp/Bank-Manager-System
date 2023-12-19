@@ -1,7 +1,8 @@
-package ru.alex.bank_managersystem.controller;
+package ru.alex.bank_managersystem.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.alex.bank_managersystem.model.dto.user.UserDTO;
+import ru.alex.bank_managersystem.model.dto.user.auth.LoginUserDTO;
 import ru.alex.bank_managersystem.model.dto.user.auth.RegistrationUserDTO;
 import ru.alex.bank_managersystem.model.response.JwtResponse;
 import ru.alex.bank_managersystem.service.AuthenticationService;
@@ -27,8 +29,15 @@ public class AuthenticationController {
 
     @PostMapping("/registration")
     public ResponseEntity<JwtResponse> registrationUser(@RequestBody RegistrationUserDTO registrationUserDTO,
-                                                        BindingResult bindingResult
-    ) {
-        return ResponseEntity.ok().body(authenticationService.registration(registrationUserDTO, bindingResult));
+                                                        BindingResult bindingResult) {
+        return ResponseEntity.accepted()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(authenticationService.registration(registrationUserDTO, bindingResult));
+    }
+    @PostMapping("/login")
+    private ResponseEntity<JwtResponse> loginUser(@RequestBody LoginUserDTO loginUserDTO, BindingResult bindingResult) {
+        return ResponseEntity.accepted()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(authenticationService.login(loginUserDTO, bindingResult));
     }
 }

@@ -27,7 +27,7 @@ public class Card {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    @ManyToOne
-    @JoinColumn(name = "account_id", referencedColumnName = "account_id")
+    @OneToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "account_id", unique = true)
     private Account account;
 }

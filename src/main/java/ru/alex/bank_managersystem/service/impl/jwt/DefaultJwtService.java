@@ -52,8 +52,8 @@ public class DefaultJwtService implements JwtService {
         return JWT.create()
                 .withSubject("user")
                 .withClaim("id", uuid)
-                .withClaim("email", email).
-                withClaim("roles", role.name())
+                .withClaim("email", email)
+                .withClaim("roles", role.name())
                 .withIssuedAt(Instant.from(now))
                 .withIssuer("Server")
                 .withExpiresAt(Instant.from(now.plusMinutes(90)))

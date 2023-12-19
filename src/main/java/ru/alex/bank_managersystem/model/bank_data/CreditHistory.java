@@ -31,6 +31,6 @@ public class CreditHistory {
     private ZonedDateTime repaymentDate;
 
     @Column(name = "status")
-    private String status;
+    private CreditStatus status;
 
 }
