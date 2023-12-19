@@ -16,6 +16,7 @@ import java.security.Principal;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -34,7 +35,6 @@ public class DefaultAccountService implements AccountService {
         account.setAccountId(id);
         account.setUser(user);
         account.setBalance(0.0);
-        account.setCards(new ArrayList<>());
         account.setDateCreated(ZonedDateTime.now());
 
         return accountRepository.save(account);
@@ -47,16 +47,8 @@ public class DefaultAccountService implements AccountService {
     }
     @Override
     public void transfer(TransferDTO transferDTO, Principal principal) {
-        //TODO переделить как нибудь
-      /*  final var fromAccount = getAccountById(principal.getName());
-        final var toAccount = getAccountById(transferDTO.getToAccount());
-        double result = transferDTO.getMoney() - fromAccount.getBalance();
-        if (result >= 0.0) {
-            fromAccount.setBalance(result);
-            toAccount.setBalance(transferDTO.getMoney() + toAccount.getBalance());
-        } else {
-            throw new InsufficientMoneysException("insufficient money");
-        }*/
+
+
 
     }
     @Override
@@ -66,9 +58,9 @@ public class DefaultAccountService implements AccountService {
             final var account = getAccountById(accountId);
             cardValidator.validate(account, bindingResult);
             if (bindingResult.hasErrors()) {
-                throw new CardValidatorException(bindingResult.getFieldError().getDefaultMessage());
+                throw new CardValidatorException(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
             }
-            account.addCard(card);
+            account.setCards(card);
         } else {
             throw new CardValidatorException("Card validator invalid");
         }
@@ -79,15 +71,7 @@ public class DefaultAccountService implements AccountService {
         return accountRepository.findById(id).orElseThrow(() -> new MoneyAccountNotFoundException("Account not found")).getHistories();
     }
 
-    private AccountType chooseType(String type) {
-        return switch (type) {
-            case "DEPOSIT" ->  AccountType.DEPOSIT;
-            case "CREDIT" ->  AccountType.CREDIT;
-            case "CALCULATED" ->  AccountType.CALCULATED;
-            case "CURRENCY" ->  AccountType.CURRENCY;
-            default -> throw new ResourceNotFoundException(STR."Unexpected value: \{type}");
-        };
-    }
+
 
 
 }

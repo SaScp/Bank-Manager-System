@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS t_card (
     expiration_date DATE NOT NULL,
     cvv VARCHAR(3) NOT NULL,
     is_active BOOLEAN NOT NULL,
-    FOREIGN KEY (account_id) REFERENCES t_account(account_id) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (account_id) REFERENCES t_account(account_id) ON DELETE CASCADE ON UPDATE CASCADE UNIQUE
     );
 
 -- Создание таблицы для истории транзакций

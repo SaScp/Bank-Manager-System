@@ -28,8 +28,8 @@ public class Account {
     @Column(name = "date_created")
     private ZonedDateTime dateCreated;
 
-    @OneToMany(mappedBy = "account")
-    private List<Card> cards;
+    @OneToOne(mappedBy = "account")
+    private Card cards;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
@@ -38,7 +38,4 @@ public class Account {
     @OneToMany(mappedBy = "account")
     private List<History> histories;
 
-    public void addCard(Card card) {
-        cards.add(card);
-    }
 }

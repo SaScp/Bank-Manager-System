@@ -74,7 +74,7 @@ public class DefaultAuthenticationService implements AuthenticationService {
         final var id = user.getUserId();
         final var email = user.getEmail();
 
-        Authentication authentication = authenticate.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword()));
+        authenticate.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword()));
 
         return JwtResponse.builder()
                 .uuid(id)

@@ -9,6 +9,7 @@ public class AccountConverter implements AttributeConverter<AccountType, String>
 
     public static AccountDTO convertAccountToAccountDTO(Account account) {
         return AccountDTO.builder()
+                .accountId(account.getAccountId())
                 .accountType(account.getAccountType().name())
                 .balance(account.getBalance())
                 .dateCreated(account.getDateCreated()).build();

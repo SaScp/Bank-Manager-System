@@ -50,10 +50,11 @@ public class DefaultUserService implements UserService {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setUserId(newUUID);
-        user.setRole(Role.USER);
+        user.setRole(Role.ROLE_USER);
         user.setDateOfBirth(ZonedDateTime.now());
         user.setAccounts(new ArrayList<>());
-        user.setCreditHistories(new ArrayList<>() );
+        user.setCreditHistories(new ArrayList<>());
+
         return userRepository.save(user);
     }
 
@@ -91,13 +92,12 @@ public class DefaultUserService implements UserService {
     }
 
 
-
     private AccountType chooseType(String type) {
         return switch (type) {
-            case "DEPOSIT" ->  AccountType.DEPOSIT;
-            case "CREDIT" ->  AccountType.CREDIT;
-            case "CALCULATED" ->  AccountType.CALCULATED;
-            case "CURRENCY" ->  AccountType.CURRENCY;
+            case "DEPOSIT" -> AccountType.DEPOSIT;
+            case "CREDIT" -> AccountType.CREDIT;
+            case "CALCULATED" -> AccountType.CALCULATED;
+            case "CURRENCY" -> AccountType.CURRENCY;
             default -> throw new ResourceNotFoundException(STR."Unexpected value: \{type}");
         };
     }

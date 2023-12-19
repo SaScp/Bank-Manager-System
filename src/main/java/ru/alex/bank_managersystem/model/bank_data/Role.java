@@ -2,5 +2,5 @@ package ru.alex.bank_managersystem.model.bank_data;
 
 
 public enum Role {
-    USER, DEVELOPER
+    ROLE_USER, ROLE_DEVELOPER, ROLE_BLOCK
 }

@@ -18,7 +18,6 @@ public class DefaultCardService implements CardService {
     private final CardRepository cardRepository;
 
 
-
     Card getCard(String numberCard) {
         return cardRepository.findCardByCardNumber(numberCard).orElseThrow(() -> new CardNotFoundException("Card not found"));
     }
