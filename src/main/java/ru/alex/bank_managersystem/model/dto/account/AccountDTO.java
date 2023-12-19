@@ -18,5 +18,6 @@ public class AccountDTO {
     private String accountType;
 
     private ZonedDateTime dateCreated;
+
     private CardDTO card;
 }

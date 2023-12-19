@@ -49,7 +49,7 @@ public class DefaultCardService implements CardService {
         Random random = new Random();
         StringBuilder partialNumber = new StringBuilder();
 
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < 15; i++) {
             partialNumber.append(random.nextInt(10));
         }
 

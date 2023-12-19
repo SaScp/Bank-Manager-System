@@ -14,6 +14,7 @@ public class UserConverter {
                 .email(user.getEmail())
                 .dateOfBirth(user.getDateOfBirth())
                 .fullName(user.getFullName())
+                .accounts(user.getAccounts().stream().map(AccountConverter::convertAccountToAccountDTO).toList())
                 .build();
     }
 
