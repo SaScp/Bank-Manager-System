@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+//TODO realization todo
 @Component
 public class CardValidator implements Validator {
     @Override

@@ -8,7 +8,7 @@ import ru.alex.bank_managersystem.model.bank_data.AccountType;
 import java.time.ZonedDateTime;
 
 @Data
-@Builder
+
 public class AccountDTO {
 
     private String accountId;

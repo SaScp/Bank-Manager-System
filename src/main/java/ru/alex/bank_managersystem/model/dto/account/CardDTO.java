@@ -8,7 +8,7 @@ import ru.alex.bank_managersystem.model.bank_data.Card;
 import java.time.ZonedDateTime;
 
 @Data
-@Builder
+
 public class CardDTO {
 
     private String cardNumber;

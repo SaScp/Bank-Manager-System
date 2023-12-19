@@ -8,7 +8,7 @@ import java.time.ZonedDateTime;
 
 
 @Data
-@Builder
+
 public class HistoryDTO {
 
     private String transactionType;

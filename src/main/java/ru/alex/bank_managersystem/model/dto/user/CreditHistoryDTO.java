@@ -7,7 +7,7 @@ import lombok.Data;
 import java.time.ZonedDateTime;
 
 @Data
-@Builder
+
 public class CreditHistoryDTO {
 
     private Double creditAmount;

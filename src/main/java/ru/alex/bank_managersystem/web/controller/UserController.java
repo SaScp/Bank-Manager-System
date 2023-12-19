@@ -24,11 +24,17 @@ public class UserController {
     @Qualifier("defaultUserService")
     private final UserService userService;
 
+    private final UserConverter userConverter;
+
+    private final CreditHistoryConverter creditHistoryConverter;
+
+    private final AccountConverter accountConverter;
+
     @GetMapping("/")
     public ResponseEntity<UserDTO> getUser(Principal principal) {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(UserConverter
+                .body(userConverter
                         .convertUserToUserDTO(userService.getUserByPrincipal(principal))
                 );
     }
@@ -38,7 +44,7 @@ public class UserController {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(userService.getCreditHistoryByPrincipal(principal).stream()
-                        .map(CreditHistoryConverter::convertCreditHistoryToCreditHistoryDto)
+                        .map(creditHistoryConverter::convertCreditHistoryToCreditHistoryDto)
                         .toList()
                 );
     }
@@ -48,13 +54,13 @@ public class UserController {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(userService.getAccountByPrincipal(principal).stream()
-                        .map(AccountConverter::convertAccountToAccountDTO).toList());
+                        .map(accountConverter::convertAccountToAccountDTO).toList());
     }
 
     @PostMapping("/add")
     public ResponseEntity<AccountDTO> addAccount(Principal principal, @RequestBody AccountDTO accountDTO) {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(AccountConverter.convertAccountToAccountDTO(userService.addAccount(principal, accountDTO)));
+                .body(accountConverter.convertAccountToAccountDTO(userService.addAccount(principal, accountDTO)));
     }
 }

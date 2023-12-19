@@ -37,10 +37,11 @@ public class DefaultAuthenticationService implements AuthenticationService {
     @Qualifier("defaultAuthenticationProvider")
     private final AuthenticationProvider authenticate;
 
+    private final UserConverter userConverter;
     @Override
     public JwtResponse registration(RegistrationUserDTO userDTO, BindingResult bindingResult) {
 
-        final var preUserSave = UserConverter.convertRegistrationUserDtoToUser(userDTO);
+        final var preUserSave = userConverter.convertRegistrationUserDtoToUser(userDTO);
 
         validationData(preUserSave, bindingResult);
 
@@ -69,7 +70,7 @@ public class DefaultAuthenticationService implements AuthenticationService {
         final var id = user.getUserId();
         final var email = user.getEmail();
 
-        authenticate.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword()));
+        authenticate.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
 
         return JwtResponse.builder()
                 .uuid(id)
