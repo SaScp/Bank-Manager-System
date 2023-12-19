@@ -18,8 +18,8 @@ public class CardValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        final var card = (Card) target;
-        if (!isCardCorrect(card.getCardNumber())) {
+        final var number = (String) target;
+        if (!isCardCorrect(number)) {
             errors.rejectValue("cardNumber", "500", "the card is not valid");
         }
     }
@@ -62,6 +62,7 @@ public class CardValidator implements Validator {
     public boolean isCardCorrectTest(final String card) {
         return isCardCorrect(card);
     }
+
     public boolean isLunaTest(final String card) {
         return isLuna(card);
     }

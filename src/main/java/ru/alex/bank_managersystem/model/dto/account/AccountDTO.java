@@ -1,4 +1,4 @@
-package ru.alex.bank_managersystem.model.dto;
+package ru.alex.bank_managersystem.model.dto.account;
 
 import jakarta.persistence.Column;
 import lombok.Builder;
@@ -18,4 +18,5 @@ public class AccountDTO {
     private String accountType;
 
     private ZonedDateTime dateCreated;
+    private CardDTO card;
 }

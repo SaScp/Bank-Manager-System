@@ -48,8 +48,7 @@ public class DefaultAuthenticationService implements AuthenticationService {
             throw new RegistrationUserException(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
 
-        final var user = userService.save(UserConverter.convertRegistrationUserDtoToUser(userDTO), bindingResult);
-
+        final var user = userService.save(preUserSave, bindingResult);
         final var id = user.getUserId();
         final var email = user.getEmail();
         final var role = user.getRole();

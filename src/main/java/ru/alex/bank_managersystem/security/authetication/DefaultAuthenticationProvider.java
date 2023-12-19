@@ -28,7 +28,7 @@ public class DefaultAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         final var userDetails = userDetailsService.loadUserByUsername(authentication.getName());
 
-        if (!passwordEncoder.matches(authentication.getCredentials().toString(), userDetails.getPassword())) {
+        if (passwordEncoder.matches(authentication.getCredentials().toString(), userDetails.getPassword())) {
             throw new BadCredentialsException("Password error");
         }
         if (userDetails.isAccountNonLocked()) {

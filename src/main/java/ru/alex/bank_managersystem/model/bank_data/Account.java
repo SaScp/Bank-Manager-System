@@ -28,10 +28,10 @@ public class Account {
     @Column(name = "date_created")
     private ZonedDateTime dateCreated;
 
-    @OneToOne(mappedBy = "account")
+    @OneToOne(mappedBy = "account", fetch = FetchType.LAZY)
     private Card card;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
 

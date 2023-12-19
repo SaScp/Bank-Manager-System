@@ -29,6 +29,7 @@ public class ControllerAdvice {
         handlers.put(CardValidatorException.class, new CardValidatorExceptionHandler());
         handlers.put(AccountsIsEmptyException.class, new AccountsIsEmptyExceptionHandler());
     }
+
     @ExceptionHandler(
             {
                     UserNotFoundException.class,

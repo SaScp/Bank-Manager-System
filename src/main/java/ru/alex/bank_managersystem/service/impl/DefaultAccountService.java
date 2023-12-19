@@ -9,6 +9,7 @@ import ru.alex.bank_managersystem.model.bank_data.*;
 import ru.alex.bank_managersystem.model.dto.TransferDTO;
 import ru.alex.bank_managersystem.repository.AccountRepository;
 import ru.alex.bank_managersystem.service.AccountService;
+import ru.alex.bank_managersystem.service.CardService;
 import ru.alex.bank_managersystem.service.UserService;
 import ru.alex.bank_managersystem.util.exception.*;
 import ru.alex.bank_managersystem.util.validator.CardValidator;
@@ -26,7 +27,12 @@ import java.util.UUID;
 public class DefaultAccountService implements AccountService {
 
     private final AccountRepository accountRepository;
+
     private final CardValidator cardValidator;
+
+    @Qualifier("defaultCardService")
+    private final CardService cardService;
+
 
     @Transactional
     public Account save(Account account, User user) {
@@ -47,6 +53,7 @@ public class DefaultAccountService implements AccountService {
         return accountRepository.findById(id)
                 .orElseThrow(() -> new MoneyAccountNotFoundException("account not found"));
     }
+
     @Override
     public void transfer(TransferDTO transferDTO, Principal principal) {
 
@@ -55,26 +62,21 @@ public class DefaultAccountService implements AccountService {
 
     @Override
     @Transactional
-    public void addCard(Card card, String accountId, BindingResult bindingResult) {
+    public Card addCard(String accountId) {
+        final var account = getAccountById(accountId);
+        final var card = cardService.generateCard();
 
-        if (cardValidator.supports(card.getClass())) {
-            final var account = getAccountById(accountId);
-            cardValidator.validate(account, bindingResult);
-            if (bindingResult.hasErrors()) {
-                throw new CardValidatorException(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
-            }
-            account.setCard(card);
-        } else {
-            throw new CardValidatorException("Card validator invalid");
-        }
+        cardService.save(card, account);
+
+
+        return card;
     }
 
     @Override
     public List<History> getHistory(String id) {
-        return accountRepository.findById(id).orElseThrow(() -> new MoneyAccountNotFoundException("Account not found")).getHistories();
+        return accountRepository.findById(id).orElseThrow(() ->
+                new MoneyAccountNotFoundException("Account not found")).getHistories();
     }
-
-
 
 
 }

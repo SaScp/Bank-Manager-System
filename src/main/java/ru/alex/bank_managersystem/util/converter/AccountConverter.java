@@ -3,7 +3,7 @@ package ru.alex.bank_managersystem.util.converter;
 import jakarta.persistence.AttributeConverter;
 import ru.alex.bank_managersystem.model.bank_data.Account;
 import ru.alex.bank_managersystem.model.bank_data.AccountType;
-import ru.alex.bank_managersystem.model.dto.AccountDTO;
+import ru.alex.bank_managersystem.model.dto.account.AccountDTO;
 
 public class AccountConverter implements AttributeConverter<AccountType, String> {
 
@@ -12,7 +12,9 @@ public class AccountConverter implements AttributeConverter<AccountType, String>
                 .accountId(account.getAccountId())
                 .accountType(account.getAccountType().name())
                 .balance(account.getBalance())
-                .dateCreated(account.getDateCreated()).build();
+                .dateCreated(account.getDateCreated())
+                .card(CardConvertor.convertCardToCardDTO(account.getCard()))
+                .build();
     }
 
     @Override

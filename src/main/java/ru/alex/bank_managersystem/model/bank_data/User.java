@@ -2,17 +2,11 @@ package ru.alex.bank_managersystem.model.bank_data;
 
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Data;
-import ru.alex.bank_managersystem.model.dto.AccountDTO;
-import ru.alex.bank_managersystem.util.converter.RoleConvertor;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Set;
-
-
 
 
 @Entity

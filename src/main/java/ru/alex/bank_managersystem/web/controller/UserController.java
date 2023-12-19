@@ -2,12 +2,10 @@ package ru.alex.bank_managersystem.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.alex.bank_managersystem.model.bank_data.Account;
-import ru.alex.bank_managersystem.model.dto.AccountDTO;
+import ru.alex.bank_managersystem.model.dto.account.AccountDTO;
 import ru.alex.bank_managersystem.model.dto.user.CreditHistoryDTO;
 import ru.alex.bank_managersystem.model.dto.user.UserDTO;
 import ru.alex.bank_managersystem.service.UserService;

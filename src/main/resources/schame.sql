@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS t_account (
 CREATE TABLE IF NOT EXISTS t_card (
                                       card_id varchar(255) PRIMARY KEY,
     account_id varchar(255) NOT NULL UNIQUE,
-    card_number VARCHAR(16) NOT NULL,
+    card_number VARCHAR(128) NOT NULL,
     expiration_date DATE NOT NULL,
     cvv VARCHAR(3) NOT NULL,
     is_active BOOLEAN NOT NULL,

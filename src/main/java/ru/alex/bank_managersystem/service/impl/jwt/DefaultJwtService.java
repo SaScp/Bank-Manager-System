@@ -129,7 +129,7 @@ public class DefaultJwtService implements JwtService {
 
         DefaultUserDetails userDetails = (DefaultUserDetails) userDetailsService.loadUserByUsername(email);
 
-        return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), "", userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
     }
 
     private DecodedJWT getVerifier(String token, String secret) {
