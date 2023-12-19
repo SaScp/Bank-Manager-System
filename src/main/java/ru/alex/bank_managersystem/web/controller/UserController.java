@@ -58,7 +58,8 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<AccountDTO> addAccount(Principal principal, @RequestBody AccountDTO accountDTO) {
+    public ResponseEntity<AccountDTO> addAccount(Principal principal,
+                                                 @RequestBody AccountDTO accountDTO) {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(accountConverter.convertAccountToAccountDTO(userService.addAccount(principal, accountDTO)));

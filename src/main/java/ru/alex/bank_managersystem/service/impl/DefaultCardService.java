@@ -18,7 +18,6 @@ import java.util.UUID;
 public class DefaultCardService implements CardService {
 
     private final CardRepository cardRepository;
-    private final CardValidator cardValidator;
 
     public Card getCard(String numberCard) {
         return cardRepository.findCardByCardNumber(numberCard).orElseThrow(() -> new CardNotFoundException("Card not found"));

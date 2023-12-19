@@ -25,12 +25,12 @@ public class DefaultUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        final var optionalUser = userService.getUserByEmail(email);
+        final var user = userService.getUserByEmail(email);
 
-        if (optionalUser == null) {
+        if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
-        final var user = optionalUser;
+
         return DefaultUserDetails
                 .builder()
                 .user(user)

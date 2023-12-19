@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.alex.bank_managersystem.model.dto.RefreshDTO;
 import ru.alex.bank_managersystem.model.dto.user.UserDTO;
 import ru.alex.bank_managersystem.model.dto.user.auth.LoginUserDTO;
 import ru.alex.bank_managersystem.model.dto.user.auth.RegistrationUserDTO;
@@ -35,9 +36,17 @@ public class AuthenticationController {
                 .body(authenticationService.registration(registrationUserDTO, bindingResult));
     }
     @PostMapping("/login")
-    private ResponseEntity<JwtResponse> loginUser(@RequestBody LoginUserDTO loginUserDTO, BindingResult bindingResult) {
+    private ResponseEntity<JwtResponse> loginUser(@RequestBody LoginUserDTO loginUserDTO,
+                                                  BindingResult bindingResult) {
         return ResponseEntity.accepted()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(authenticationService.login(loginUserDTO, bindingResult));
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<JwtResponse> refresh(@RequestBody RefreshDTO refreshDTO) {
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(authenticationService.refresh(refreshDTO.getToken()));
     }
 }

@@ -28,8 +28,6 @@ public class DefaultAccountService implements AccountService {
 
     private final AccountRepository accountRepository;
 
-    private final CardValidator cardValidator;
-
     @Qualifier("defaultCardService")
     private final CardService cardService;
 
@@ -67,7 +65,6 @@ public class DefaultAccountService implements AccountService {
         final var card = cardService.generateCard();
 
         cardService.save(card, account);
-
 
         return card;
     }
