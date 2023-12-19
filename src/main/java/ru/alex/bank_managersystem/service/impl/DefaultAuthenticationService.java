@@ -4,11 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 import ru.alex.bank_managersystem.model.bank_data.User;
 import ru.alex.bank_managersystem.model.dto.user.auth.LoginUserDTO;
 import ru.alex.bank_managersystem.model.dto.user.auth.RegistrationUserDTO;
@@ -17,8 +14,7 @@ import ru.alex.bank_managersystem.service.AuthenticationService;
 import ru.alex.bank_managersystem.service.JwtService;
 import ru.alex.bank_managersystem.service.UserService;
 import ru.alex.bank_managersystem.util.converter.UserConverter;
-import ru.alex.bank_managersystem.util.exception.LoginUserException;
-import ru.alex.bank_managersystem.util.exception.RegistrationUserException;
+import ru.alex.bank_managersystem.util.exception.authentication.RegistrationUserException;
 import ru.alex.bank_managersystem.util.validator.EmailValidator;
 import ru.alex.bank_managersystem.util.validator.PasswordValidator;
 import ru.alex.bank_managersystem.util.validator.UserValidator;
@@ -89,13 +85,12 @@ public class DefaultAuthenticationService implements AuthenticationService {
         return null;
     }
 
-    private BindingResult validationData(User userDTO, BindingResult bindingResult) {
+    private void validationData(User userDTO, BindingResult bindingResult) {
 
         final var validators = List.of(new EmailValidator(), new PasswordValidator(), userValidator);
         for (var i : validators) {
             if (i.supports(userDTO.getClass()))
                 i.validate(userDTO, bindingResult);
         }
-        return bindingResult;
     }
 }

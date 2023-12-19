@@ -3,6 +3,7 @@ package ru.alex.bank_managersystem.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import ru.alex.bank_managersystem.model.bank_data.*;
 import ru.alex.bank_managersystem.model.dto.TransferDTO;
@@ -21,12 +22,13 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class DefaultAccountService implements AccountService {
 
     private final AccountRepository accountRepository;
     private final CardValidator cardValidator;
 
-
+    @Transactional
     public Account save(Account account, User user) {
         var id = UUID.randomUUID().toString();
         if (accountRepository.findById(id).isPresent()) {
@@ -49,9 +51,10 @@ public class DefaultAccountService implements AccountService {
     public void transfer(TransferDTO transferDTO, Principal principal) {
 
 
-
     }
+
     @Override
+    @Transactional
     public void addCard(Card card, String accountId, BindingResult bindingResult) {
 
         if (cardValidator.supports(card.getClass())) {
@@ -60,7 +63,7 @@ public class DefaultAccountService implements AccountService {
             if (bindingResult.hasErrors()) {
                 throw new CardValidatorException(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
             }
-            account.setCards(card);
+            account.setCard(card);
         } else {
             throw new CardValidatorException("Card validator invalid");
         }

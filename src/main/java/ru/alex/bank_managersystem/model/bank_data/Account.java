@@ -29,7 +29,7 @@ public class Account {
     private ZonedDateTime dateCreated;
 
     @OneToOne(mappedBy = "account")
-    private Card cards;
+    private Card card;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
