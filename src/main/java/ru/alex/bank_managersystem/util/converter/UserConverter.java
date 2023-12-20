@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import ru.alex.bank_managersystem.model.bank_data.User;
 
 import ru.alex.bank_managersystem.model.dto.user.UserDTO;
-import ru.alex.bank_managersystem.model.dto.user.auth.RegistrationUserDTO;
+import ru.alex.bank_managersystem.model.dto.user.RegistrationUserDTO;
 
 @Component
 @RequiredArgsConstructor
