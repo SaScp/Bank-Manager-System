@@ -14,6 +14,7 @@ import ru.alex.bank_managersystem.service.UserService;
 import ru.alex.bank_managersystem.util.exception.*;
 import ru.alex.bank_managersystem.util.validator.CardValidator;
 
+import javax.security.auth.login.AccountNotFoundException;
 import java.security.Principal;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -53,9 +54,25 @@ public class DefaultAccountService implements AccountService {
     }
 
     @Override
+    @Transactional
     public void transfer(TransferDTO transferDTO, Principal principal) {
+        final var accountFrom = accountRepository.findAccountByCard_CardNumber(transferDTO.getFrom()).orElseThrow(() ->
+                new MoneyAccountNotFoundException("account not found"));
+        final var accountTo = accountRepository.findAccountByCard_CardNumber(transferDTO.getTo()).orElseThrow(() ->
+                new MoneyAccountNotFoundException("account not found"));;
 
 
+        double result = accountFrom.getBalance() - transferDTO.getMoney();
+
+        if (result < 0) {
+            throw new InsufficientMoneysException("Insufficient Moneys");
+        } else {
+            accountTo.setBalance(accountTo.getBalance() + transferDTO.getMoney());
+            accountFrom.setBalance(result);
+        }
+
+        accountRepository.save(accountTo);
+        accountRepository.save(accountFrom);
     }
 
     @Override
