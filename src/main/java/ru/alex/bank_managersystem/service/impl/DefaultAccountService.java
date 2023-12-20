@@ -8,8 +8,10 @@ import org.springframework.validation.BindingResult;
 import ru.alex.bank_managersystem.model.bank_data.*;
 import ru.alex.bank_managersystem.model.dto.TransferDTO;
 import ru.alex.bank_managersystem.repository.AccountRepository;
+import ru.alex.bank_managersystem.repository.UserRepository;
 import ru.alex.bank_managersystem.service.AccountService;
 import ru.alex.bank_managersystem.service.CardService;
+import ru.alex.bank_managersystem.service.HistoryService;
 import ru.alex.bank_managersystem.service.UserService;
 import ru.alex.bank_managersystem.util.exception.*;
 import ru.alex.bank_managersystem.util.validator.CardValidator;
@@ -32,7 +34,10 @@ public class DefaultAccountService implements AccountService {
     @Qualifier("defaultCardService")
     private final CardService cardService;
 
+    private final UserRepository userRepository;
 
+    @Qualifier("defaultHistoryService")
+    private final HistoryService historyService;
     @Transactional
     public Account save(Account account, User user) {
         var id = UUID.randomUUID().toString();
@@ -61,7 +66,11 @@ public class DefaultAccountService implements AccountService {
         final var accountTo = accountRepository.findAccountByCard_CardNumber(transferDTO.getTo()).orElseThrow(() ->
                 new MoneyAccountNotFoundException("account not found"));;
 
+        User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException("user not found"));
 
+        if (!accountFrom.getUser().equals(user)) {
+            throw new MoneyAccountNotFoundException("account not found");
+        }
         double result = accountFrom.getBalance() - transferDTO.getMoney();
 
         if (result < 0) {
@@ -73,8 +82,17 @@ public class DefaultAccountService implements AccountService {
 
         accountRepository.save(accountTo);
         accountRepository.save(accountFrom);
+
+        setHistory(accountFrom, result);
+        setHistory(accountTo, result);
     }
 
+    private void setHistory(Account account, double amount) {
+        History history = new History();
+        history.setAmount(amount);
+        history.setDescription(STR."transfer of money in the amount of \{amount}");
+        historyService.save(history, account);
+    }
     @Override
     @Transactional
     public Card addCard(String accountId) {

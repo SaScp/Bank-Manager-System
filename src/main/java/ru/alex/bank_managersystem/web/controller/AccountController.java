@@ -30,6 +30,8 @@ public class AccountController {
 
     private final AccountConverter accountConverter;
 
+    private final HistoryConvertor historyConvertor;
+
     @PostMapping("/transfer")
     public ResponseEntity<HttpStatus> transferMoney(@RequestBody TransferDTO transferDTO, Principal principal) {
         accountService.transfer(transferDTO, principal);
@@ -45,7 +47,7 @@ public class AccountController {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(accountService.getHistory(id)
                         .stream()
-                        .map(HistoryConvertor::convertHistoryToHistoryDTO)
+                        .map(historyConvertor::convertHistoryToHistoryDTO)
                         .toList());
     }
 
