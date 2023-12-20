@@ -5,11 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import ru.alex.bank_managersystem.model.dto.RefreshDTO;
+import org.springframework.web.bind.annotation.*;
 import ru.alex.bank_managersystem.model.dto.user.LoginUserDTO;
 import ru.alex.bank_managersystem.model.dto.user.RegistrationUserDTO;
 import ru.alex.bank_managersystem.model.response.JwtResponse;
@@ -42,10 +38,10 @@ public class AuthenticationController {
                 .body(authenticationService.login(loginUserDTO, bindingResult));
     }
 
-    @PostMapping("/refresh")
-    public ResponseEntity<JwtResponse> refresh(@RequestBody RefreshDTO refreshDTO) {
+    @GetMapping("/refresh")
+    public ResponseEntity<JwtResponse> refresh(@RequestBody String token) {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(authenticationService.refresh(refreshDTO.getToken()));
+                .body(authenticationService.refresh(token));
     }
 }

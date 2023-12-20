@@ -44,6 +44,7 @@ public class DefaultUserService implements UserService {
         return userRepository.findById(UUID).orElseThrow(() -> new UserNotFoundException("User with UUID, not Found"));
     }
 
+
     @Transactional
     public User save(User user, BindingResult bindingResult) {
 
