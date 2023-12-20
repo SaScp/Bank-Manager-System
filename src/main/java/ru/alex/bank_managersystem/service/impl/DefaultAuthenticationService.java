@@ -82,9 +82,8 @@ public class DefaultAuthenticationService implements AuthenticationService {
 
     @Override
     public JwtResponse refresh(String refreshToken) {
-        return null;
+        return jwtService.refreshUserTokens(refreshToken);
     }
-
     private void validationData(User userDTO, BindingResult bindingResult) {
 
         final var validators = List.of(new EmailValidator(), new PasswordValidator(), userValidator);
