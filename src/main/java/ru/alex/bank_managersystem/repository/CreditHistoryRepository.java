@@ -11,5 +11,4 @@ import java.util.Optional;
 @Repository
 public interface CreditHistoryRepository extends JpaRepository<CreditHistory, String> {
 
-
 }

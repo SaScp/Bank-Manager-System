@@ -1,4 +1,4 @@
-package ru.alex.bank_managersystem.model.dto.user;
+package ru.alex.bank_managersystem.model.dto.credit;
 
 import jakarta.persistence.Column;
 import lombok.Builder;

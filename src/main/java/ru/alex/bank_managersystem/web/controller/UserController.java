@@ -6,7 +6,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.alex.bank_managersystem.model.dto.account.AccountDTO;
-import ru.alex.bank_managersystem.model.dto.user.CreditHistoryDTO;
+import ru.alex.bank_managersystem.model.dto.credit.CreditHistoryDTO;
+import ru.alex.bank_managersystem.model.dto.user.UpdateUserDTO;
 import ru.alex.bank_managersystem.model.dto.user.UserDTO;
 import ru.alex.bank_managersystem.service.UserService;
 import ru.alex.bank_managersystem.util.converter.AccountConverter;
@@ -63,5 +64,16 @@ public class UserController {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(accountConverter.convertAccountToAccountDTO(userService.addAccount(principal, accountDTO)));
+    }
+
+    @PatchMapping("/update-user")
+    public ResponseEntity<UserDTO> update(@RequestBody UpdateUserDTO updateUserDTO, Principal principal) {
+        userService.userUpdateByPrincipal(updateUserDTO, principal);
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(userConverter
+                        .convertUserToUserDTO(userService
+                                .userUpdateByPrincipal(updateUserDTO, principal))
+                );
     }
 }

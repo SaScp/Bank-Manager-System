@@ -38,7 +38,7 @@ public class AccountController {
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(HttpStatus.ACCEPTED);
+                .body(HttpStatus.OK);
     }
 
     @GetMapping("/history/{id}")

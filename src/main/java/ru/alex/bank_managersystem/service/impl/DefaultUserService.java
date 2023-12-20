@@ -9,9 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import ru.alex.bank_managersystem.model.bank_data.*;
 import ru.alex.bank_managersystem.model.dto.account.AccountDTO;
+import ru.alex.bank_managersystem.model.dto.user.UpdateUserDTO;
 import ru.alex.bank_managersystem.repository.UserRepository;
 import ru.alex.bank_managersystem.service.AccountService;
 import ru.alex.bank_managersystem.service.UserService;
+import ru.alex.bank_managersystem.service.update.UpdateComponent;
+import ru.alex.bank_managersystem.service.update.UpdateEmail;
+import ru.alex.bank_managersystem.service.update.UpdateFullName;
+import ru.alex.bank_managersystem.service.update.UpdateUsername;
 import ru.alex.bank_managersystem.util.exception.ResourceNotFoundException;
 import ru.alex.bank_managersystem.util.exception.UserNotFoundException;
 
@@ -88,6 +93,22 @@ public class DefaultUserService implements UserService {
         account.setAccountType(chooseType(accountDTO.getAccountType()));
 
         return accountService.save(account, user);
+    }
+
+    @Override
+    public User userUpdateByPrincipal(UpdateUserDTO userDTO, Principal principal) {
+        final var user = getUserByPrincipal(principal);
+
+        List<UpdateComponent> components = List.of(
+                new UpdateEmail(),
+                new UpdateUsername(),
+                new UpdateFullName()
+        );
+
+        for (var component : components) {
+            component.execute(userDTO, user);
+        }
+        return user;
     }
 
 

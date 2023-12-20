@@ -1,13 +1,10 @@
 package ru.alex.bank_managersystem.util.converter;
 
-import jakarta.persistence.AttributeConverter;
-import jakarta.persistence.Converter;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import ru.alex.bank_managersystem.model.bank_data.CreditHistory;
-import ru.alex.bank_managersystem.model.bank_data.CreditStatus;
-import ru.alex.bank_managersystem.model.dto.user.CreditHistoryDTO;
+import ru.alex.bank_managersystem.model.dto.credit.CreditHistoryDTO;
 
 @Component
 @RequiredArgsConstructor
