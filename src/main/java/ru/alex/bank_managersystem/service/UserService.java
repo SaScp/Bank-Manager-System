@@ -2,7 +2,6 @@ package ru.alex.bank_managersystem.service;
 
 import org.springframework.validation.BindingResult;
 import ru.alex.bank_managersystem.model.bank_data.Account;
-import ru.alex.bank_managersystem.model.bank_data.CreditHistory;
 import ru.alex.bank_managersystem.model.bank_data.User;
 import ru.alex.bank_managersystem.model.dto.account.AccountDTO;
 import ru.alex.bank_managersystem.model.dto.user.UpdateUserDTO;
@@ -19,7 +18,6 @@ public interface UserService {
 
     User getUserByEmail(String email);
 
-    List<CreditHistory> getCreditHistoryByPrincipal(Principal principal);
 
     List<Account> getAccountByPrincipal(Principal principal);
 

@@ -42,15 +42,3 @@ CREATE TABLE IF NOT EXISTS t_history (
     description TEXT,
     FOREIGN KEY (account_id) REFERENCES t_account(account_id) ON DELETE CASCADE ON UPDATE CASCADE
     );
-
--- Создание таблицы для истории кредитных операций
-CREATE TABLE IF NOT EXISTS t_credit_history (
-                                                credit_id varchar(255) PRIMARY KEY,
-    user_id varchar(255) NOT NULL,
-    credit_amount DECIMAL(10,2) NOT NULL,
-    interest_rate DECIMAL(5,2) NOT NULL,
-    credit_date DATE NOT NULL,
-    repayment_date DATE NOT NULL,
-    status VARCHAR(50) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES t_user(user_id) ON DELETE CASCADE ON UPDATE CASCADE
-    );

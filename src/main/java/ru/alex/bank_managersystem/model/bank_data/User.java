@@ -59,8 +59,6 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Account> accounts;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<CreditHistory> creditHistories;
 
     public void addAccount(Account account) {
         accounts.add(account);
