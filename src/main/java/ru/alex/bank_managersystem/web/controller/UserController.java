@@ -55,7 +55,6 @@ public class UserController {
 
     @PatchMapping("/update-user")
     public ResponseEntity<UserDTO> update(@RequestBody UpdateUserDTO updateUserDTO, Principal principal) {
-        userService.userUpdateByPrincipal(updateUserDTO, principal);
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(userConverter
