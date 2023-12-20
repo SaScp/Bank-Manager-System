@@ -40,12 +40,12 @@ public class JwtFilter extends OncePerRequestFilter {
     private final SecurityContextRepository securityContextRepository =
             new RequestAttributeSecurityContextRepository();
     
-    private final AuthenticationProvider authenticationProvider;
+    private final AuthenticationManager authenticationManager;
 
-    public JwtFilter(JwtService jwtService, AuthenticationEntryPoint authenticationEntryPoint, AuthenticationProvider authenticationProvider) {
+    public JwtFilter(JwtService jwtService, AuthenticationEntryPoint authenticationEntryPoint, AuthenticationManager authenticationManager) {
         this.jwtService = jwtService;
         this.authenticationEntryPoint = authenticationEntryPoint;
-        this.authenticationProvider = authenticationProvider;
+        this.authenticationManager = authenticationManager;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class JwtFilter extends OncePerRequestFilter {
                     try {
                         final var authentication = jwtService.getAuthentication(token);
                         try {
-                            final var authResult = authenticationProvider.authenticate(authentication);
+                            final var authResult = authenticationManager.authenticate(authentication);
                             final var context = this.securityContextHolderStrategy.createEmptyContext();
 
                             context.setAuthentication(authResult);

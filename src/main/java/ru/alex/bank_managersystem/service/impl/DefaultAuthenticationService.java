@@ -7,8 +7,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import ru.alex.bank_managersystem.model.bank_data.User;
-import ru.alex.bank_managersystem.model.dto.user.auth.LoginUserDTO;
-import ru.alex.bank_managersystem.model.dto.user.auth.RegistrationUserDTO;
+import ru.alex.bank_managersystem.model.dto.user.LoginUserDTO;
+import ru.alex.bank_managersystem.model.dto.user.RegistrationUserDTO;
 import ru.alex.bank_managersystem.model.response.JwtResponse;
 import ru.alex.bank_managersystem.service.AuthenticationService;
 import ru.alex.bank_managersystem.service.JwtService;

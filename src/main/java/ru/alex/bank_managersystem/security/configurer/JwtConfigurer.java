@@ -6,6 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Component;
 import ru.alex.bank_managersystem.security.authetication.DefaultAuthenticationProvider;
 import ru.alex.bank_managersystem.security.filter.JwtFilter;
 import ru.alex.bank_managersystem.service.JwtService;
+
+import java.util.Collections;
 
 @Component
 @RequiredArgsConstructor
@@ -39,9 +42,9 @@ public class JwtConfigurer extends AbstractHttpConfigurer<JwtConfigurer, HttpSec
 
     @Override
     public void configure(HttpSecurity builder) throws Exception {
+        final var manager = new ProviderManager(Collections.singletonList(authenticationProvider));
 
-        builder.addFilterBefore(new JwtFilter(this.jwtService, this.authenticationEntryPoint, authenticationProvider),
-                UsernamePasswordAuthenticationFilter.class);
+        builder.addFilterBefore(new JwtFilter(this.jwtService, this.authenticationEntryPoint, manager),UsernamePasswordAuthenticationFilter.class);
     }
 
     public JwtConfigurer authenticationEntryPoint(AuthenticationEntryPoint authenticationEntryPoint) {

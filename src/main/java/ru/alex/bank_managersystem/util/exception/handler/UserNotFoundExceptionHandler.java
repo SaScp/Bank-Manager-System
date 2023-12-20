@@ -8,7 +8,7 @@ public class UserNotFoundExceptionHandler implements ExceptionHandlerStrategy {
     @Override
     public ErrorResponse handleException(RuntimeException exception) {
         return ErrorResponse.builder()
-                .error("401")
+                .error("404")
                 .msg(exception.getMessage())
                 .dateTime(ZonedDateTime.now())
                 .build();
