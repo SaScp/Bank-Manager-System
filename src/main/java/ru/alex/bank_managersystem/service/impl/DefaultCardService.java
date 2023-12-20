@@ -23,14 +23,7 @@ public class DefaultCardService implements CardService {
         return cardRepository.findCardByCardNumber(numberCard).orElseThrow(() -> new CardNotFoundException("Card not found"));
     }
 
-    public void save(Card card, Account account) {
-        card.setAccount(account);
-        cardRepository.save(card);
-    }
-
-    @Override
-    public Card generateCard() {
-        Card card = new Card();
+    public Card save(Card card, Account account) {
         var id = UUID.randomUUID().toString();
         if (cardRepository.findById(id).isPresent()) {
             id = UUID.randomUUID().toString();
@@ -40,8 +33,8 @@ public class DefaultCardService implements CardService {
         card.setCvv(generateCvvCode());
         card.setIsActive(true);
         card.setExpirationDate(ZonedDateTime.now().plusYears(2));
-
-        return card;
+        card.setAccount(account);
+        return cardRepository.save(card);
     }
 
     private String generateLuhnNumber() {

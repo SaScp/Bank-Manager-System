@@ -78,12 +78,7 @@ public class DefaultAccountService implements AccountService {
     @Override
     @Transactional
     public Card addCard(String accountId) {
-        final var account = getAccountById(accountId);
-        final var card = cardService.generateCard();
-
-        cardService.save(card, account);
-
-        return card;
+        return cardService.save(new Card(), getAccountById(accountId));
     }
 
     @Override

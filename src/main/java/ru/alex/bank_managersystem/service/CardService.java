@@ -8,7 +8,5 @@ public interface CardService {
 
     Card getCard(String numberCard);
 
-    Card generateCard();
-
-    void save(Card card, Account account);
+    Card save(Card card, Account account);
 }
