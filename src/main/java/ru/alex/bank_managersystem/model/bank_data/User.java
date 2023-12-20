@@ -2,22 +2,19 @@ package ru.alex.bank_managersystem.model.bank_data;
 
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Data;
-import ru.alex.bank_managersystem.model.dto.AccountDTO;
-import ru.alex.bank_managersystem.util.converter.RoleConvertor;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Set;
-
-
+import java.util.Objects;
 
 
 @Entity
 @Table(name = "t_user")
 @Data
+
 public class User implements Serializable {
 
     public User() {
@@ -67,5 +64,23 @@ public class User implements Serializable {
 
     public void addAccount(Account account) {
         accounts.add(account);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(userId, user.userId) &&
+                Objects.equals(username, user.username) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(fullName, user.fullName) &&
+                role == user.role;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, username, password, email, fullName, role);
     }
 }

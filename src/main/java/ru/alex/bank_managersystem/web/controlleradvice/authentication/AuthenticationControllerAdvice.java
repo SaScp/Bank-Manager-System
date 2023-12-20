@@ -1,4 +1,4 @@
-package ru.alex.bank_managersystem.web.controlleradvice;
+package ru.alex.bank_managersystem.web.controlleradvice.authentication;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -15,30 +15,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
-public class ControllerAdvice {
+public class AuthenticationControllerAdvice {
 
     Map<Class<? extends RuntimeException>, ExceptionHandlerStrategy> handlers;
 
-    public ControllerAdvice() {
+    public AuthenticationControllerAdvice() {
         handlers = new HashMap<>();
-        handlers.put(UserNotFoundException.class, new UserNotFoundExceptionHandler());
-        handlers.put(ResourceNotFoundException.class, new ResourceNotFoundExceptionHandler());
-        handlers.put(MoneyAccountNotFoundException.class, new MoneyAccountNotFoundExceptionHandler());
-        handlers.put(InsufficientMoneysException.class, new InsufficientMoneysExceptionHandler());
-        handlers.put(CreditHistoryIsEmptyException.class, new CreditHistoryIsEmptyExceptionHandler());
-        handlers.put(CardValidatorException.class, new CardValidatorExceptionHandler());
-        handlers.put(AccountsIsEmptyException.class, new AccountsIsEmptyExceptionHandler());
+
+        handlers.put(AccountHasBlockException.class, new AccountHasBlockExceptionHandler());
+        handlers.put(RegistrationUserException.class, new RegistrationUserExceptionHandler());
+        handlers.put(LoginUserException.class, new LoginUserExceptionHandler());
+        handlers.put(AccessDeniedException.class, new AccessDeniedExceptionHandler());
+        handlers.put(BadCredentialsException.class, new BadCredentialExceptionHandler());
     }
 
     @ExceptionHandler(
             {
-                    UserNotFoundException.class,
-                    ResourceNotFoundException.class,
-                    MoneyAccountNotFoundException.class,
-                    InsufficientMoneysException.class,
-                    CreditHistoryIsEmptyException.class,
-                    CardValidatorException.class,
-                    AccountsIsEmptyException.class,
+                    AccountHasBlockException.class,
+                    RegistrationUserException.class,
+                    LoginUserException.class,
+                    AccessDeniedException.class,
+                    BadCredentialsException.class
             }
     )
     private ResponseEntity<ErrorResponse> exHandler(RuntimeException e) {

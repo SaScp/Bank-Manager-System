@@ -15,7 +15,7 @@ public interface AccountService {
 
     Account getAccountById(String id);
 
-    void addCard(Card Card, String accountId, BindingResult bindingResult);
+    Card addCard(String accountId);
 
     List<History> getHistory(String id);
 

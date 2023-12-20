@@ -19,7 +19,7 @@ public class History {
     private Account account;
 
     @Column(name = "transaction_type")
-    private String transactionType;
+    private TransactionType transactionType;
 
     @Column(name = "amount")
     private Double amount;

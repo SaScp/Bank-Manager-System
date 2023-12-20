@@ -15,16 +15,13 @@ import ru.alex.bank_managersystem.model.bank_data.User;
 
 import ru.alex.bank_managersystem.model.response.JwtResponse;
 import ru.alex.bank_managersystem.security.authetication.DefaultUserDetails;
-import ru.alex.bank_managersystem.security.authetication.DefaultUserDetailsService;
 import ru.alex.bank_managersystem.service.JwtService;
 import ru.alex.bank_managersystem.service.UserService;
-import ru.alex.bank_managersystem.util.exception.AccessDeniedException;
+import ru.alex.bank_managersystem.util.exception.authentication.AccessDeniedException;
 
 import java.sql.Date;
 import java.time.Instant;
 import java.time.ZonedDateTime;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -132,7 +129,7 @@ public class DefaultJwtService implements JwtService {
 
         DefaultUserDetails userDetails = (DefaultUserDetails) userDetailsService.loadUserByUsername(email);
 
-        return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), "", userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), userDetails.getPassword(), userDetails.getAuthorities());
     }
 
     private DecodedJWT getVerifier(String token, String secret) {

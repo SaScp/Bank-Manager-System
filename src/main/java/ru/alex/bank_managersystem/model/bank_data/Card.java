@@ -11,20 +11,19 @@ import java.time.ZonedDateTime;
 public class Card {
 
     @Id
-    @Column(name = "card_id")
+    @Column(name = "card_id", nullable = false)
     private String cardId;
 
-    @Column(name = "card_number")
+    @Column(name = "card_number", nullable = false)
     private String cardNumber;
 
-
-    @Column(name = "expiration_date")
+    @Column(name = "expiration_date", nullable = false)
     private ZonedDateTime expirationDate;
 
-    @Column(name = "cvv")
+    @Column(name = "cvv", nullable = false)
     private String cvv;
 
-    @Column(name = "is_active")
+    @Column(name = "is_active", nullable = false)
     private Boolean isActive;
 
     @OneToOne

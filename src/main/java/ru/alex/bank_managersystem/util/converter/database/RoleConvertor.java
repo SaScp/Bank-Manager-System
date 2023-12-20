@@ -1,4 +1,4 @@
-package ru.alex.bank_managersystem.util.converter;
+package ru.alex.bank_managersystem.util.converter.database;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

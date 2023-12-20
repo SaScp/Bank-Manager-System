@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.alex.bank_managersystem.model.dto.user.CreditHistoryDTO;
 
 @RestController
-@RequestMapping("/v1/account")
+@RequestMapping("/v1/credit-history")
 public class CreditHistoryController {
 
     @GetMapping("/{id}")

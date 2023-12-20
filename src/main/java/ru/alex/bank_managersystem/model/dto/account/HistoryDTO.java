@@ -1,4 +1,4 @@
-package ru.alex.bank_managersystem.model.dto;
+package ru.alex.bank_managersystem.model.dto.account;
 
 import jakarta.persistence.Column;
 import lombok.Builder;
@@ -8,7 +8,7 @@ import java.time.ZonedDateTime;
 
 
 @Data
-@Builder
+
 public class HistoryDTO {
 
     private String transactionType;

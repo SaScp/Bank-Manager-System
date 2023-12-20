@@ -4,12 +4,10 @@ import org.springframework.validation.BindingResult;
 import ru.alex.bank_managersystem.model.bank_data.Account;
 import ru.alex.bank_managersystem.model.bank_data.CreditHistory;
 import ru.alex.bank_managersystem.model.bank_data.User;
-import ru.alex.bank_managersystem.model.dto.AccountDTO;
-import ru.alex.bank_managersystem.model.dto.user.UserDTO;
+import ru.alex.bank_managersystem.model.dto.account.AccountDTO;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 public interface UserService {
     User getUserByUUID(final String UUID);

@@ -2,12 +2,10 @@ package ru.alex.bank_managersystem.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.alex.bank_managersystem.model.bank_data.Account;
-import ru.alex.bank_managersystem.model.dto.AccountDTO;
+import ru.alex.bank_managersystem.model.dto.account.AccountDTO;
 import ru.alex.bank_managersystem.model.dto.user.CreditHistoryDTO;
 import ru.alex.bank_managersystem.model.dto.user.UserDTO;
 import ru.alex.bank_managersystem.service.UserService;
@@ -26,11 +24,17 @@ public class UserController {
     @Qualifier("defaultUserService")
     private final UserService userService;
 
+    private final UserConverter userConverter;
+
+    private final CreditHistoryConverter creditHistoryConverter;
+
+    private final AccountConverter accountConverter;
+
     @GetMapping("/")
     public ResponseEntity<UserDTO> getUser(Principal principal) {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(UserConverter
+                .body(userConverter
                         .convertUserToUserDTO(userService.getUserByPrincipal(principal))
                 );
     }
@@ -40,7 +44,7 @@ public class UserController {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(userService.getCreditHistoryByPrincipal(principal).stream()
-                        .map(CreditHistoryConverter::convertCreditHistoryToCreditHistoryDto)
+                        .map(creditHistoryConverter::convertCreditHistoryToCreditHistoryDto)
                         .toList()
                 );
     }
@@ -50,13 +54,14 @@ public class UserController {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(userService.getAccountByPrincipal(principal).stream()
-                        .map(AccountConverter::convertAccountToAccountDTO).toList());
+                        .map(accountConverter::convertAccountToAccountDTO).toList());
     }
 
     @PostMapping("/add")
-    public ResponseEntity<AccountDTO> addAccount(Principal principal, @RequestBody AccountDTO accountDTO) {
+    public ResponseEntity<AccountDTO> addAccount(Principal principal,
+                                                 @RequestBody AccountDTO accountDTO) {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(AccountConverter.convertAccountToAccountDTO(userService.addAccount(principal, accountDTO)));
+                .body(accountConverter.convertAccountToAccountDTO(userService.addAccount(principal, accountDTO)));
     }
 }
