@@ -3,6 +3,9 @@ package ru.alex.bank_managersystem.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +26,7 @@ import ru.alex.bank_managersystem.util.exception.UserNotFoundException;
 import java.security.Principal;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -70,6 +74,25 @@ public class DefaultUserService implements UserService {
     @Override
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("User not found"));
+    }
+
+    @Override
+    public List<User> getAllUser(HashMap<String, String> params) {
+
+        if (Boolean.parseBoolean(params.get("np"))) {
+            return getAllUserNonParams();
+        }
+        final boolean sortIsOk = Boolean.parseBoolean(params.get("sorted"));
+        final int size = Integer.parseInt(params.get("size"));
+        final int pageNumber = Integer.parseInt(params.get("pageNumber"));
+        final var pageRequest = sortIsOk ? PageRequest.of(pageNumber, size, Sort.by("username")) : PageRequest.of(pageNumber, size);
+
+        return userRepository.findAll(pageRequest).toList();
+    }
+
+    @Override
+    public List<User> getAllUserNonParams() {
+        return userRepository.findAll();
     }
 
 

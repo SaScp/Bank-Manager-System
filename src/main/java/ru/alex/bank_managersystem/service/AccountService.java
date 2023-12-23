@@ -8,6 +8,7 @@ import ru.alex.bank_managersystem.model.bank_data.User;
 import ru.alex.bank_managersystem.model.dto.TransferDTO;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
 
 public interface AccountService {
@@ -19,6 +20,9 @@ public interface AccountService {
 
     List<History> getHistory(String id);
 
+    List<Account> getAllAccount(HashMap<String, String> params);
+
+    List<Account> getAllAccountNonParams();
     Account save(Account account, User user);
 
 }

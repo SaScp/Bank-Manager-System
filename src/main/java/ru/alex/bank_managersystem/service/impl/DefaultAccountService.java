@@ -2,6 +2,8 @@ package ru.alex.bank_managersystem.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -19,10 +21,7 @@ import ru.alex.bank_managersystem.util.validator.CardValidator;
 import javax.security.auth.login.AccountNotFoundException;
 import java.security.Principal;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -103,6 +102,25 @@ public class DefaultAccountService implements AccountService {
     public List<History> getHistory(String id) {
         return accountRepository.findById(id).orElseThrow(() ->
                 new MoneyAccountNotFoundException("Account not found")).getHistories();
+    }
+
+    @Override
+    public List<Account> getAllAccount(HashMap<String, String> params) {
+        if (Boolean.parseBoolean(params.get("np"))) {
+            return getAllAccountNonParams();
+        }
+
+        final boolean sortIsOk = Boolean.parseBoolean(params.get("sorted"));
+        final int size = Integer.parseInt(params.get("size"));
+        final int pageNumber = Integer.parseInt(params.get("pageNumber"));
+        final var pageRequest = sortIsOk ? PageRequest.of(pageNumber, size, Sort.by("username")) : PageRequest.of(pageNumber, size);
+
+        return accountRepository.findAll(pageRequest).toList();
+    }
+
+    @Override
+    public List<Account> getAllAccountNonParams() {
+        return accountRepository.findAll();
     }
 
 
