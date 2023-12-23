@@ -12,6 +12,9 @@ import ru.alex.bank_managersystem.model.response.JwtResponse;
 import ru.alex.bank_managersystem.service.AuthenticationService;
 import ru.alex.bank_managersystem.service.UserService;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/authentication")
@@ -25,8 +28,8 @@ public class AuthenticationController {
 
     @PostMapping("/registration")
     public ResponseEntity<JwtResponse> registrationUser(@RequestBody RegistrationUserDTO registrationUserDTO,
-                                                        BindingResult bindingResult) {
-        return ResponseEntity.accepted()
+                                                        BindingResult bindingResult) throws URISyntaxException {
+        return ResponseEntity.created(new URI("v1/authentication/registration"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(authenticationService.registration(registrationUserDTO, bindingResult));
     }

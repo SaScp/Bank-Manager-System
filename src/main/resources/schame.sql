@@ -42,3 +42,9 @@ CREATE TABLE IF NOT EXISTS t_history (
     description TEXT,
     FOREIGN KEY (account_id) REFERENCES t_account(account_id) ON DELETE CASCADE ON UPDATE CASCADE
     );
+
+CREATE TABLE IF NOT EXISTS t_contact(
+                                        contact_id varchar(255) PRIMARY KEY,
+    description text NOT NULL,
+    email varchar(255 )NOT NULL
+    )
