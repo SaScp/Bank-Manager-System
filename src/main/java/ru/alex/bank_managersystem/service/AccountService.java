@@ -21,7 +21,7 @@ public interface AccountService {
     List<History> getHistory(String id);
 
     List<Account> getAllAccount(HashMap<String, String> params);
-
+    Account getAccountByNumberCard(String number);
     List<Account> getAllAccountNonParams();
     Account save(Account account, User user);
 

@@ -60,10 +60,8 @@ public class DefaultAccountService implements AccountService {
     @Override
     @Transactional
     public void transfer(TransferDTO transferDTO, Principal principal) {
-        final var accountFrom = accountRepository.findAccountByCard_CardNumber(transferDTO.getFrom()).orElseThrow(() ->
-                new MoneyAccountNotFoundException("account not found"));
-        final var accountTo = accountRepository.findAccountByCard_CardNumber(transferDTO.getTo()).orElseThrow(() ->
-                new MoneyAccountNotFoundException("account not found"));;
+        final var accountFrom = getAccountByNumberCard(transferDTO.getFrom());
+        final var accountTo = getAccountByNumberCard(transferDTO.getTo());
 
         User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException("user not found"));
 
@@ -84,6 +82,11 @@ public class DefaultAccountService implements AccountService {
 
         setHistory(accountFrom, result);
         setHistory(accountTo, result);
+    }
+
+    public Account getAccountByNumberCard(String number) {
+        return accountRepository.findAccountByCard_CardNumber(number).orElseThrow(() ->
+                new MoneyAccountNotFoundException("account not found"));
     }
 
     private void setHistory(Account account, double amount) {
