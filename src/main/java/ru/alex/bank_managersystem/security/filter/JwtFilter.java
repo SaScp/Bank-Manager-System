@@ -83,7 +83,6 @@ public class JwtFilter extends OncePerRequestFilter {
                     response.sendError(HttpStatus.FORBIDDEN.value(), "Token is invalid");
                     return;
                 }
-
             }
         }
         filterChain.doFilter(request, response);

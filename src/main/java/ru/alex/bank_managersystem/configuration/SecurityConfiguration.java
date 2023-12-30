@@ -31,7 +31,7 @@ public class SecurityConfiguration {
                 authorizationManagerRequestMatcherRegistry
                         .requestMatchers("/error", "/v1/authentication/**", "/contact")
                         .permitAll()
-                        .requestMatchers("/v1/admin").hasRole("DEVELOPER")
+                        .requestMatchers("/v1/admin/**").hasRole("DEVELOPER")
                         .anyRequest()
                         .authenticated()
         );

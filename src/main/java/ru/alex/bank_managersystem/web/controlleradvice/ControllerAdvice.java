@@ -25,7 +25,6 @@ public class ControllerAdvice {
         handlers.put(ResourceNotFoundException.class, new ResourceNotFoundExceptionHandler());
         handlers.put(MoneyAccountNotFoundException.class, new MoneyAccountNotFoundExceptionHandler());
         handlers.put(InsufficientMoneysException.class, new InsufficientMoneysExceptionHandler());
-
         handlers.put(CardValidatorException.class, new CardValidatorExceptionHandler());
         handlers.put(AccountsIsEmptyException.class, new AccountsIsEmptyExceptionHandler());
     }
