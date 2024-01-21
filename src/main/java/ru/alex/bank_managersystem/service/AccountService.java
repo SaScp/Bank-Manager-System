@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface AccountService {
+
     void transfer(TransferDTO transferDTO, Principal principal);
 
     Account getAccountById(String id);
@@ -21,8 +22,11 @@ public interface AccountService {
     List<History> getHistory(String id);
 
     List<Account> getAllAccount(HashMap<String, String> params);
+
     Account getAccountByNumberCard(String number);
+
     List<Account> getAllAccountNonParams();
+
     Account save(Account account, User user);
 
 }

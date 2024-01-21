@@ -1,6 +1,5 @@
 package ru.alex.bank_managersystem.service.impl;
 
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
@@ -48,7 +47,6 @@ public class DefaultUserService implements UserService {
         return userRepository.findById(UUID).orElseThrow(() -> new UserNotFoundException("User with UUID, not Found"));
     }
 
-
     @Transactional
     public User save(User user, BindingResult bindingResult) {
 
@@ -85,7 +83,8 @@ public class DefaultUserService implements UserService {
         final boolean sortIsOk = Boolean.parseBoolean(params.get("sorted"));
         final int size = Integer.parseInt(params.get("size"));
         final int pageNumber = Integer.parseInt(params.get("pageNumber"));
-        final var pageRequest = sortIsOk ? PageRequest.of(pageNumber, size, Sort.by("username")) : PageRequest.of(pageNumber, size);
+        final var pageRequest = sortIsOk ? PageRequest.of(pageNumber, size, Sort.by("username"))
+                : PageRequest.of(pageNumber, size);
 
         return userRepository.findAll(pageRequest).toList();
     }
@@ -94,7 +93,6 @@ public class DefaultUserService implements UserService {
     public List<User> getAllUserNonParams() {
         return userRepository.findAll();
     }
-
 
     @Override
     public List<Account> getAccountByPrincipal(Principal principal) {
@@ -119,8 +117,7 @@ public class DefaultUserService implements UserService {
         List<UpdateComponent> components = List.of(
                 new UpdateEmail(),
                 new UpdateUsername(),
-                new UpdateFullName()
-        );
+                new UpdateFullName());
 
         for (var component : components) {
             component.execute(userDTO, user);
@@ -128,13 +125,12 @@ public class DefaultUserService implements UserService {
         return user;
     }
 
-
     private AccountType chooseType(String type) {
         return switch (type) {
             case "DEPOSIT" -> AccountType.DEPOSIT;
             case "CALCULATED" -> AccountType.CALCULATED;
             case "CURRENCY" -> AccountType.CURRENCY;
-            default -> throw new ResourceNotFoundException(STR."Unexpected value: \{type}");
+            default -> throw new ResourceNotFoundException(/* STR."Unexpected value: \{type}" */"a");
         };
     }
 

@@ -28,18 +28,17 @@ public class DefaultAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         final var userDetails = userDetailsService.loadUserByUsername(authentication.getName());
 
-
         if (passwordEncoder.matches(authentication.getCredentials().toString(), userDetails.getPassword())) {
             throw new BadCredentialsException("Password error");
         }
         if (userDetails.isAccountNonLocked()) {
-            throw new AccountHasBlockException(STR."Account \{authentication.getName()} has block");
+            // throw new AccountHasBlockException(STR."Account \{authentication.getName()}
+            // has block");
         }
         return new UsernamePasswordAuthenticationToken(
                 userDetails.getUsername(),
                 userDetails.getPassword(),
-                userDetails.getAuthorities()
-        );
+                userDetails.getAuthorities());
     }
 
     @Override

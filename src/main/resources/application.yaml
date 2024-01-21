@@ -10,10 +10,10 @@ spring:
         show_sql: false
         format_sql: false
   mail:
-    port: 587
-    host: smtp.gmail.com
-    username: testemailforprog@gmail.com
-    password: kmwaalytexgdocfr
+    port:
+    host:
+    username:
+    password:
     properties:
       mail:
         smtp:

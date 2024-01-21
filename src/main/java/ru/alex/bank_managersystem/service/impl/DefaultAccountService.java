@@ -37,6 +37,7 @@ public class DefaultAccountService implements AccountService {
 
     @Qualifier("defaultHistoryService")
     private final HistoryService historyService;
+
     @Transactional
     public Account save(Account account, User user) {
         var id = UUID.randomUUID().toString();
@@ -63,7 +64,8 @@ public class DefaultAccountService implements AccountService {
         final var accountFrom = getAccountByNumberCard(transferDTO.getFrom());
         final var accountTo = getAccountByNumberCard(transferDTO.getTo());
 
-        User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new UserNotFoundException("user not found"));
+        User user = userRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new UserNotFoundException("user not found"));
 
         if (!accountFrom.getUser().equals(user)) {
             throw new MoneyAccountNotFoundException("account not found");
@@ -85,16 +87,17 @@ public class DefaultAccountService implements AccountService {
     }
 
     public Account getAccountByNumberCard(String number) {
-        return accountRepository.findAccountByCard_CardNumber(number).orElseThrow(() ->
-                new MoneyAccountNotFoundException("account not found"));
+        return accountRepository.findAccountByCard_CardNumber(number)
+                .orElseThrow(() -> new MoneyAccountNotFoundException("account not found"));
     }
 
     private void setHistory(Account account, double amount) {
         History history = new History();
         history.setAmount(amount);
-        history.setDescription(STR."transfer of money in the amount of \{amount}");
+        // history.setDescription(STR."transfer of money in the amount of \{amount}");
         historyService.save(history, account);
     }
+
     @Override
     @Transactional
     public Card addCard(String accountId) {
@@ -103,8 +106,8 @@ public class DefaultAccountService implements AccountService {
 
     @Override
     public List<History> getHistory(String id) {
-        return accountRepository.findById(id).orElseThrow(() ->
-                new MoneyAccountNotFoundException("Account not found")).getHistories();
+        return accountRepository.findById(id).orElseThrow(() -> new MoneyAccountNotFoundException("Account not found"))
+                .getHistories();
     }
 
     @Override
@@ -116,7 +119,8 @@ public class DefaultAccountService implements AccountService {
         final boolean sortIsOk = Boolean.parseBoolean(params.get("sorted"));
         final int size = Integer.parseInt(params.get("size"));
         final int pageNumber = Integer.parseInt(params.get("pageNumber"));
-        final var pageRequest = sortIsOk ? PageRequest.of(pageNumber, size, Sort.by("username")) : PageRequest.of(pageNumber, size);
+        final var pageRequest = sortIsOk ? PageRequest.of(pageNumber, size, Sort.by("username"))
+                : PageRequest.of(pageNumber, size);
 
         return accountRepository.findAll(pageRequest).toList();
     }
@@ -125,6 +129,5 @@ public class DefaultAccountService implements AccountService {
     public List<Account> getAllAccountNonParams() {
         return accountRepository.findAll();
     }
-
 
 }

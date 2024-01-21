@@ -1,6 +1,7 @@
 package ru.alex.bank_managersystem.util.converter;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import ru.alex.bank_managersystem.model.bank_data.Account;
